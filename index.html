@@ -1,0 +1,1519 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>OLPL — Orias Library Programming Language</title>
+<link href="https://fonts.googleapis.com/css2?family=Share+Tech+Mono&family=Orbitron:wght@400;700;900&family=JetBrains+Mono:wght@400;600&family=DM+Sans:wght@300;400;500&display=swap" rel="stylesheet">
+<style>
+:root{
+  --bg:#000a00;
+  --sb:#010d01;
+  --panel:#010f01;
+  --bd:#0a2a0a;
+  --bd2:#0d3d0d;
+  --acc:#00ff41;
+  --acc2:#00cc33;
+  --acc3:#ff003c;
+  --acc4:#ffcc00;
+  --acc5:#00aaff;
+  --acc6:#7fff00;
+  --txt:#a0ffb0;
+  --dim:#2d6b3d;
+  --br:#ccffcc;
+  --code:#000500;
+  --hv:#041504;
+  --tag:#021002;
+  --glow: 0 0 10px #00ff41, 0 0 20px #00ff4133;
+  --glow2: 0 0 6px #00ff4166;
+}
+*{box-sizing:border-box;margin:0;padding:0}
+
+/* ── SCROLLBAR ── */
+::-webkit-scrollbar{width:4px;height:4px}
+::-webkit-scrollbar-track{background:#000800}
+::-webkit-scrollbar-thumb{background:#00ff4133;border-radius:2px}
+::-webkit-scrollbar-thumb:hover{background:#00ff4166}
+
+body{
+  font-family:'DM Sans',sans-serif;
+  background:var(--bg);
+  color:var(--txt);
+  display:flex;
+  height:100vh;
+  overflow:hidden;
+  font-size:14px;
+  position:relative;
+}
+
+/* ═══════════════════════════════
+   MATRIX RAIN CANVAS BACKGROUND
+═══════════════════════════════ */
+#matrix-canvas{
+  position:fixed;
+  top:0;left:0;
+  width:100%;height:100%;
+  z-index:0;
+  pointer-events:none;
+  opacity:0.18;
+}
+
+/* ── SCANLINES overlay ── */
+body::before{
+  content:'';
+  position:fixed;
+  inset:0;
+  background:repeating-linear-gradient(
+    0deg,
+    transparent,
+    transparent 2px,
+    rgba(0,0,0,0.15) 2px,
+    rgba(0,0,0,0.15) 4px
+  );
+  pointer-events:none;
+  z-index:1;
+}
+
+/* ── VIGNETTE ── */
+body::after{
+  content:'';
+  position:fixed;
+  inset:0;
+  background:radial-gradient(ellipse at center, transparent 50%, rgba(0,0,0,0.7) 100%);
+  pointer-events:none;
+  z-index:1;
+}
+
+/* ── SIDEBAR ── */
+#sb{
+  width:290px;min-width:290px;
+  background:rgba(0,8,0,0.92);
+  border-right:1px solid var(--bd2);
+  display:flex;flex-direction:column;
+  height:100vh;overflow:hidden;
+  position:relative;z-index:10;
+  transition:left .3s cubic-bezier(.4,0,.2,1);
+  box-shadow: 2px 0 20px rgba(0,255,65,0.08);
+}
+#sb::before{
+  content:'';position:absolute;top:0;left:0;right:0;height:1px;
+  background:linear-gradient(90deg,transparent,var(--acc),transparent);
+  box-shadow:var(--glow);
+}
+
+#sbh{
+  padding:20px 16px 14px;
+  border-bottom:1px solid var(--bd2);
+  position:relative;
+  background:linear-gradient(180deg,rgba(0,20,0,0.8),transparent);
+}
+
+/* ── LOGO ── */
+.logo{
+  font-family:'Orbitron',monospace;
+  font-weight:900;
+  font-size:22px;
+  color:var(--acc);
+  display:flex;align-items:center;gap:10px;
+  margin-bottom:14px;
+  letter-spacing:2px;
+  text-shadow:var(--glow);
+  animation: glitch-text 8s infinite;
+}
+@keyframes glitch-text{
+  0%,94%,100%{text-shadow:var(--glow)}
+  95%{text-shadow:-2px 0 #ff003c, 2px 0 #00aaff, var(--glow)}
+  97%{text-shadow:2px 0 #ff003c, -2px 0 #00aaff, var(--glow)}
+}
+@keyframes glitch-burst{
+  0%  {text-shadow:var(--glow);clip-path:none;transform:none}
+  8%  {text-shadow:-3px 0 #ff003c,3px 0 #00aaff,var(--glow);clip-path:inset(15% 0 65% 0);transform:translateX(-4px)}
+  16% {text-shadow:3px 0 #ff003c,-3px 0 #00aaff,var(--glow);clip-path:inset(55% 0 10% 0);transform:translateX(4px)}
+  24% {clip-path:inset(35% 0 35% 0);transform:translateX(-2px)}
+  32% {text-shadow:var(--glow);clip-path:none;transform:none}
+  42% {text-shadow:-2px 0 #ff003c,2px 0 #00aaff,var(--glow);clip-path:inset(70% 0 5% 0);transform:translateX(3px)}
+  50% {clip-path:none;transform:none}
+  60% {text-shadow:-1px 0 #ff003c,1px 0 #00aaff,var(--glow);clip-path:inset(20% 0 50% 0);transform:translateX(-1px)}
+  68% {clip-path:none;transform:none}
+  100%{text-shadow:var(--glow);clip-path:none;transform:none}
+}
+@keyframes glitch-title{
+  0%  {opacity:0;transform:translateX(8px);text-shadow:3px 0 #ff003c,-3px 0 #00aaff}
+  15% {opacity:1;transform:translateX(-3px);clip-path:inset(20% 0 60% 0)}
+  28% {transform:translateX(2px);clip-path:inset(55% 0 10% 0)}
+  40% {transform:translateX(0);clip-path:none;text-shadow:var(--glow)}
+  55% {text-shadow:-2px 0 #ff003c,2px 0 #00aaff,var(--glow);clip-path:inset(10% 0 70% 0)}
+  68% {clip-path:none;transform:none;text-shadow:var(--glow)}
+  100%{text-shadow:var(--glow);clip-path:none}
+}
+.glitch-burst{animation:glitch-burst 0.6s steps(1) both !important}
+.glitch-title{animation:glitch-title 0.5s steps(1) both}
+
+/* ── PAGE GLITCH — seluruh container saat load konten ── */
+@keyframes pg-clip{
+  0%  {clip-path:inset(0 0 100% 0)}
+  12% {clip-path:inset(0 0 72% 0)}
+  20% {clip-path:inset(28% 0 48% 0)}
+  28% {clip-path:inset(0 0 55% 0)}
+  36% {clip-path:inset(52% 0 10% 0)}
+  44% {clip-path:inset(0 0 30% 0)}
+  52% {clip-path:inset(20% 0 40% 0)}
+  62% {clip-path:inset(0 0 15% 0)}
+  72% {clip-path:inset(10% 0 5% 0)}
+  82% {clip-path:inset(0 0 3% 0)}
+  100%{clip-path:inset(0 0 0% 0)}
+}
+@keyframes pg-shake{
+  0%  {transform:translateX(0)}
+  15% {transform:translateX(-6px) skewX(-1.5deg)}
+  30% {transform:translateX(5px)  skewX(1deg)}
+  45% {transform:translateX(-3px) skewX(-0.5deg)}
+  60% {transform:translateX(2px)}
+  75% {transform:translateX(-1px)}
+  90% {transform:translateX(1px)}
+  100%{transform:translateX(0)}
+}
+@keyframes pg-chroma{
+  0%  {filter:brightness(1.8) contrast(1.3) hue-rotate(15deg)}
+  20% {filter:brightness(1.5) contrast(1.2) hue-rotate(-10deg)}
+  40% {filter:brightness(1.3) saturate(1.5)}
+  60% {filter:brightness(1.15) contrast(1.1)}
+  80% {filter:brightness(1.05)}
+  100%{filter:none}
+}
+.page-glitch{
+  animation:
+    pg-clip   0.55s linear both,
+    pg-shake  0.55s ease-out both,
+    pg-chroma 0.55s ease-out both;
+}
+.logo-i{
+  width:32px;height:32px;
+  border:2px solid var(--acc);
+  border-radius:4px;
+  display:flex;align-items:center;justify-content:center;
+  color:var(--acc);font-size:14px;font-weight:900;
+  font-family:'Share Tech Mono',monospace;
+  box-shadow:var(--glow);
+  animation: pulse-border 2s ease-in-out infinite;
+  position:relative;overflow:hidden;
+}
+.logo-i::after{
+  content:'';position:absolute;inset:0;
+  background:linear-gradient(135deg,transparent 40%,rgba(0,255,65,0.15) 50%,transparent 60%);
+  animation:shine 3s ease-in-out infinite;
+}
+@keyframes shine{0%,100%{transform:translateX(-100%)}50%{transform:translateX(100%)}}
+@keyframes pulse-border{0%,100%{box-shadow:var(--glow)}50%{box-shadow:0 0 20px #00ff41,0 0 40px #00ff4155}}
+@keyframes logo-spin{
+  0%  {transform:perspective(80px) rotateY(0deg)}
+  35% {transform:perspective(80px) rotateY(200deg) scale(1.15)}
+  65% {transform:perspective(80px) rotateY(330deg) scale(0.9)}
+  100%{transform:perspective(80px) rotateY(360deg)}
+}
+.logo-i.spinning{
+  animation: logo-spin 0.7s cubic-bezier(.4,0,.2,1) both, pulse-border 2s ease-in-out infinite;
+}
+
+.logo-sub{
+  font-family:'Share Tech Mono',monospace;
+  font-size:9px;
+  color:var(--dim);
+  letter-spacing:1.5px;
+  text-transform:uppercase;
+  margin-top:-10px;
+  margin-left:42px;
+  margin-bottom:14px;
+}
+
+#search{
+  width:100%;
+  background:rgba(0,20,0,0.6);
+  border:1px solid var(--bd2);
+  border-radius:3px;
+  padding:8px 10px 8px 34px;
+  color:var(--txt);
+  font-family:'Share Tech Mono',monospace;
+  font-size:12px;
+  outline:none;
+  transition:all .2s;
+  background-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='13' height='13' viewBox='0 0 24 24' fill='none' stroke='%2300ff41' stroke-width='2'%3E%3Ccircle cx='11' cy='11' r='8'/%3E%3Cpath d='m21 21-4.35-4.35'/%3E%3C/svg%3E");
+  background-repeat:no-repeat;background-position:10px center;
+}
+#search:focus{border-color:var(--acc);box-shadow:0 0 8px #00ff4144;color:var(--acc)}
+#search::placeholder{color:var(--dim);font-size:11px}
+
+#sbc{
+  display:none;position:absolute;top:18px;right:14px;
+  width:28px;height:28px;border-radius:3px;
+  background:rgba(0,30,0,0.8);border:1px solid var(--bd2);
+  cursor:pointer;align-items:center;justify-content:center;
+  color:var(--acc);font-size:14px;z-index:10;
+  font-family:'Share Tech Mono',monospace;
+}
+
+/* ── LANG TABS ── */
+#lt{display:flex;flex-wrap:wrap;gap:4px;padding:10px 12px;border-bottom:1px solid var(--bd2)}
+.lt{
+  display:inline-flex;align-items:center;gap:0;
+  padding:4px 10px;border-radius:2px;
+  font-size:10px;font-weight:700;cursor:pointer;
+  border:1px solid transparent;
+  transition:all .2s cubic-bezier(.4,0,.2,1);
+  font-family:'Share Tech Mono',monospace;
+  letter-spacing:.5px;
+  position:relative;overflow:hidden;
+  white-space:nowrap;
+}
+.lt::before{
+  content:'>';
+  display:inline-block;
+  max-width:0;
+  overflow:hidden;
+  opacity:0;
+  margin-right:0;
+  transition:max-width .25s cubic-bezier(.4,0,.2,1),
+             opacity .15s,
+             margin-right .25s cubic-bezier(.4,0,.2,1);
+}
+.lt:hover::before,.lt.active::before{
+  max-width:14px;
+  opacity:1;
+  margin-right:4px;
+}
+.lt:hover{border-color:currentColor;text-shadow:var(--glow2)}
+.lt.active{border-color:currentColor;text-shadow:var(--glow2);background:rgba(0,255,65,0.06)}
+
+.ljs   {color:#ffd166;border-color:#ffd16622}
+.lpy   {color:#4db8ff;border-color:#4db8ff22}
+.lcss  {color:#c084fc;border-color:#c084fc22}
+.lhtml {color:#ff8c42;border-color:#ff8c4222}
+.lts   {color:#60a5fa;border-color:#60a5fa22}
+.lreact{color:#38bdf8;border-color:#38bdf822}
+.lanim {color:#00ff41;border-color:#00ff4122}
+.lsvg  {color:#f472b6;border-color:#f472b622}
+.lthree{color:#7dd3fc;border-color:#7dd3fc22}
+.lsql  {color:#fb923c;border-color:#fb923c22}
+
+/* ── NAV LIST ── */
+#nl{flex:1;overflow-y:auto;padding:4px 0}
+.ns{
+  padding:8px 14px 3px;
+  font-size:9px;font-weight:700;
+  letter-spacing:2px;text-transform:uppercase;
+  color:var(--dim);
+  font-family:'Share Tech Mono',monospace;
+  border-left:2px solid var(--bd2);
+  margin-left:12px;
+}
+.ni{
+  display:flex;align-items:center;gap:8px;
+  padding:5px 14px;cursor:pointer;
+  border-left:2px solid transparent;
+  transition:all .12s;
+  position:relative;
+}
+@keyframes ni-slide-in{
+  from{opacity:0;transform:translateX(28px)}
+  to  {opacity:1;transform:translateX(0)}
+}
+.ni.slide-in{
+  animation:ni-slide-in .22s cubic-bezier(.2,0,.2,1) both;
+}
+.ni::before{
+  content:'';position:absolute;left:0;top:50%;transform:translateY(-50%);
+  width:0;height:60%;
+  background:var(--acc);
+  transition:width .15s;opacity:0.5;
+}
+.ni:hover::before{width:2px}
+.ni:hover{background:rgba(0,255,65,0.04);padding-left:18px}
+.ni.active{background:rgba(0,255,65,0.07);border-left-color:var(--acc);padding-left:18px}
+.ni.active::before{width:2px}
+.nico{
+  width:20px;height:20px;border-radius:2px;
+  display:flex;align-items:center;justify-content:center;
+  font-size:9px;font-weight:800;flex-shrink:0;
+  font-family:'Share Tech Mono',monospace;
+  border:1px solid currentColor;
+}
+.nlbl{font-size:12px;flex:1;font-family:'Share Tech Mono',monospace}
+.ncnt{
+  font-size:9px;
+  background:rgba(0,255,65,0.08);
+  color:var(--acc);
+  padding:1px 5px;border-radius:2px;
+  font-family:'Share Tech Mono',monospace;
+  border:1px solid var(--bd2);
+}
+
+/* ── CONTENT AREA ── */
+#ca{flex:1;display:flex;flex-direction:column;overflow:hidden;position:relative;z-index:10}
+
+/* ── TOPBAR ── */
+#tb{
+  height:48px;
+  border-bottom:1px solid var(--bd2);
+  display:flex;align-items:center;
+  padding:0 20px;gap:10px;
+  background:rgba(0,8,0,0.9);
+  flex-shrink:0;
+  position:relative;
+}
+#tb::after{
+  content:'';position:absolute;bottom:0;left:0;right:0;height:1px;
+  background:linear-gradient(90deg,transparent,var(--acc2),transparent);
+}
+#mb{
+  display:none;align-items:center;justify-content:center;
+  width:32px;height:32px;border-radius:3px;
+  background:rgba(0,20,0,0.8);
+  border:1px solid var(--bd2);cursor:pointer;
+  flex-shrink:0;transition:all .15s;
+  color:var(--acc);
+}
+#mb:hover{border-color:var(--acc);box-shadow:var(--glow2)}
+
+.bc{display:flex;align-items:center;gap:6px;font-size:12px;font-family:'Share Tech Mono',monospace}
+.bci{color:var(--dim)}
+.bcs{color:var(--bd2);font-size:16px}
+.bcc{color:var(--acc);text-shadow:var(--glow2)}
+
+#tbr{margin-left:auto;display:flex;gap:8px;align-items:center}
+.tbadge{
+  font-size:10px;padding:3px 10px;border-radius:2px;
+  font-weight:700;font-family:'Share Tech Mono',monospace;
+  border:1px solid currentColor;letter-spacing:.5px;
+}
+
+/* ── WRAP ── */
+#wr{display:flex;flex:1;overflow:hidden}
+
+/* ── MAIN CONTENT ── */
+#mc{
+  flex:1;overflow-y:auto;
+  padding:36px 48px;max-width:880px;
+}
+
+/* ── TOC ── */
+#toc{
+  width:200px;min-width:200px;
+  border-left:1px solid var(--bd2);
+  padding:20px 12px;overflow-y:auto;
+  background:rgba(0,5,0,0.85);
+}
+.toc-t{
+  font-family:'Share Tech Mono',monospace;
+  font-size:9px;font-weight:700;
+  letter-spacing:2px;text-transform:uppercase;
+  color:var(--dim);margin-bottom:10px;
+}
+.toc-i{
+  font-size:11px;padding:4px 8px;border-radius:2px;
+  cursor:pointer;color:var(--dim);
+  transition:all .15s;border-left:2px solid transparent;
+  margin-bottom:1px;font-family:'Share Tech Mono',monospace;
+}
+.toc-i:hover{color:var(--acc);background:rgba(0,255,65,0.05)}
+.toc-i.active{color:var(--acc);border-left-color:var(--acc);text-shadow:var(--glow2)}
+
+/* ── DOC CONTENT ── */
+.dt{
+  font-family:'Orbitron',monospace;
+  font-weight:700;font-size:28px;
+  color:var(--acc);line-height:1.2;
+  margin-bottom:6px;letter-spacing:1px;
+  text-shadow:var(--glow);
+}
+.ds{
+  color:var(--dim);font-size:13px;
+  margin-bottom:28px;line-height:1.7;
+  font-family:'Share Tech Mono',monospace;
+  border-left:2px solid var(--bd2);padding-left:12px;
+}
+.st{
+  font-family:'Orbitron',monospace;
+  font-size:15px;font-weight:700;
+  color:var(--acc);margin:32px 0 12px;
+  padding-bottom:7px;
+  border-bottom:1px solid var(--bd2);
+  letter-spacing:.5px;
+  text-shadow:var(--glow2);
+}
+p{line-height:1.75;color:#e0e0e0;margin-bottom:12px;font-size:13.5px}
+code{
+  font-family:'JetBrains Mono',monospace;
+  font-size:12px;background:var(--code);
+  color:var(--acc);padding:2px 6px;
+  border-radius:2px;border:1px solid var(--bd2);
+}
+pre{
+  background:rgba(0,5,0,0.95);
+  border:1px solid var(--bd2);
+  border-left:2px solid var(--acc2);
+  border-radius:2px;
+  padding:18px 20px;overflow-x:auto;
+  margin:12px 0 18px;position:relative;
+}
+pre::before{
+  content:attr(data-lang);
+  position:absolute;top:0;right:0;
+  font-size:9px;color:var(--acc2);
+  font-family:'Share Tech Mono',monospace;
+  font-weight:700;text-transform:uppercase;
+  letter-spacing:1px;
+  background:rgba(0,20,0,0.9);
+  padding:2px 8px;border-left:1px solid var(--bd2);border-bottom:1px solid var(--bd2);
+}
+pre code{background:none;border:none;padding:0;color:#cdd6f4;font-size:12.5px;line-height:1.8}
+.kw{color:#ff79c6}.fn{color:#50fa7b}.str{color:#f1fa8c}.num{color:#bd93f9}
+.cm{color:#4a7a5a;font-style:italic}.op{color:#ff5555}.cls{color:#ffb86c}
+.var{color:#8be9fd}.at{color:#ff79c6}.tag{color:#ff8c42}.attr{color:#50fa7b}.val{color:#f1fa8c}
+
+/* ── CARDS ── */
+.cg{display:grid;grid-template-columns:repeat(auto-fill,minmax(160px,1fr));gap:8px;margin:12px 0 24px}
+.card{
+  background:rgba(0,10,0,0.8);
+  border:1px solid var(--bd2);
+  border-radius:3px;padding:12px;
+  cursor:pointer;transition:all .2s;
+  position:relative;overflow:hidden;
+}
+.card::before{
+  content:'';position:absolute;inset:0;
+  background:linear-gradient(135deg,transparent,rgba(0,255,65,0.03));
+}
+.card:hover{border-color:var(--acc);box-shadow:0 0 15px rgba(0,255,65,0.1);transform:translateY(-1px)}
+.ci{font-size:18px;margin-bottom:6px}
+.cn{font-family:'Share Tech Mono',monospace;font-weight:700;font-size:11px;color:var(--acc);margin-bottom:3px}
+.cd{font-size:11px;color:var(--dim);line-height:1.4}
+
+/* ── TABLE ── */
+table{width:100%;border-collapse:collapse;margin:12px 0 20px;font-size:12px}
+th{
+  background:rgba(0,20,0,0.9);color:var(--acc);
+  font-weight:600;padding:8px 12px;text-align:left;
+  border:1px solid var(--bd2);
+  font-family:'Share Tech Mono',monospace;font-size:10px;
+  letter-spacing:.5px;text-transform:uppercase;
+}
+td{padding:7px 12px;border:1px solid var(--bd2);color:var(--txt);vertical-align:top;font-size:12px}
+tr:hover td{background:rgba(0,255,65,0.03)}
+
+/* ── CALLOUT ── */
+.cb{border-left:2px solid;padding:10px 14px;border-radius:0 3px 3px 0;margin:12px 0;font-size:12.5px;font-family:'Share Tech Mono',monospace}
+.cb.info{border-color:var(--acc5);background:rgba(0,170,255,0.05)}
+.cb.tip{border-color:var(--acc);background:rgba(0,255,65,0.04)}
+.cb.warn{border-color:var(--acc4);background:rgba(255,204,0,0.05)}
+.cb.err{border-color:var(--acc3);background:rgba(255,0,60,0.05)}
+.cbt{font-weight:700;font-size:10px;letter-spacing:1px;margin-bottom:4px;text-transform:uppercase}
+.cb.info .cbt{color:var(--acc5)}.cb.tip .cbt{color:var(--acc)}.cb.warn .cbt{color:var(--acc4)}.cb.err .cbt{color:var(--acc3)}
+
+/* ── COPY BTN ── */
+.cpb{
+  position:absolute;top:6px;right:56px;
+  font-size:9px;padding:2px 7px;
+  background:rgba(0,20,0,0.9);color:var(--dim);
+  border:1px solid var(--bd2);border-radius:2px;
+  cursor:pointer;font-family:'Share Tech Mono',monospace;
+  font-weight:700;text-transform:uppercase;letter-spacing:.5px;
+  transition:all .15s;
+}
+.cpb:hover{color:var(--acc);border-color:var(--acc);box-shadow:var(--glow2)}
+
+/* ── OVERLAY ── */
+#ov{
+  display:none;position:fixed;inset:0;
+  background:rgba(0,0,0,0.8);z-index:99;
+  backdrop-filter:blur(3px);
+}
+#ov.show{display:block}
+
+/* ── HOME PAGE ── */
+#hp{display:block}
+#dv{display:none}
+#lp{display:none}
+
+/* ── LANG OVERVIEW PAGE ── */
+.lp-hero{
+  padding:44px 48px 32px;
+  border-bottom:1px solid var(--bd2);
+  position:relative;
+}
+.lp-hero::after{
+  content:'';position:absolute;bottom:0;left:0;right:0;height:1px;
+  background:linear-gradient(90deg,transparent,var(--lp-color,#00ff41),transparent);
+}
+.lp-tag{
+  font-family:'Share Tech Mono',monospace;
+  font-size:9px;letter-spacing:3px;
+  color:var(--lp-color,#00ff41);
+  opacity:0.7;margin-bottom:12px;
+  text-transform:uppercase;
+}
+.lp-title{
+  font-family:'Orbitron',monospace;
+  font-weight:900;font-size:36px;
+  color:var(--lp-color,#00ff41);
+  letter-spacing:3px;margin-bottom:10px;
+  text-shadow:0 0 20px var(--lp-color,#00ff41),0 0 40px color-mix(in srgb,var(--lp-color,#00ff41) 40%,transparent);
+}
+.lp-desc{
+  font-family:'Share Tech Mono',monospace;
+  font-size:12px;color:var(--dim);
+  line-height:1.8;max-width:600px;
+  border-left:2px solid var(--lp-color,#00ff41);
+  padding-left:14px;opacity:0.8;
+}
+.lp-stats{
+  display:flex;gap:24px;margin-top:24px;flex-wrap:wrap;
+}
+.lp-stat{
+  font-family:'Share Tech Mono',monospace;
+  font-size:10px;color:var(--dim);
+  display:flex;flex-direction:column;gap:4px;
+}
+.lp-stat-val{
+  font-size:22px;font-weight:900;
+  color:var(--lp-color,#00ff41);
+  font-family:'Orbitron',monospace;
+  text-shadow:0 0 12px var(--lp-color,#00ff41);
+}
+.lp-modules{padding:28px 48px 50px}
+.lp-sec-title{
+  font-family:'Share Tech Mono',monospace;
+  font-size:9px;letter-spacing:2px;
+  color:var(--dim);text-transform:uppercase;
+  margin-bottom:10px;margin-top:24px;
+  display:flex;align-items:center;gap:8px;
+}
+.lp-sec-title::after{
+  content:'';flex:1;height:1px;
+  background:linear-gradient(90deg,var(--bd2),transparent);
+}
+.lp-grid{
+  display:grid;
+  grid-template-columns:repeat(auto-fill,minmax(180px,1fr));
+  gap:8px;margin-bottom:8px;
+}
+.lp-card{
+  border:1px solid color-mix(in srgb,var(--lp-color,#00ff41) 20%,transparent);
+  border-radius:3px;padding:12px 14px;cursor:pointer;
+  transition:all .18s;
+  background:rgba(0,8,0,0.6);
+  position:relative;overflow:hidden;
+}
+.lp-card:hover{
+  border-color:var(--lp-color,#00ff41);
+  background:color-mix(in srgb,var(--lp-color,#00ff41) 5%,transparent);
+  transform:translateX(3px);
+}
+.lp-card-name{
+  font-family:'Share Tech Mono',monospace;
+  font-size:11px;font-weight:700;
+  color:var(--lp-color,#00ff41);
+  margin-bottom:4px;
+}
+.lp-card-n{
+  font-family:'Share Tech Mono',monospace;
+  font-size:9px;color:var(--dim);
+}
+.lp-card::before{
+  content:'›';
+  position:absolute;right:12px;top:50%;transform:translateY(-50%);
+  color:var(--lp-color,#00ff41);opacity:0;
+  transition:opacity .15s,right .15s;
+  font-size:16px;
+}
+.lp-card:hover::before{opacity:1;right:10px}
+@keyframes lp-card-in{
+  from{opacity:0;transform:translateX(20px)}
+  to{opacity:1;transform:translateX(0)}
+}
+.lp-card.card-in{animation:lp-card-in .2s cubic-bezier(.2,0,.2,1) both}
+@media(max-width:768px){
+  .lp-hero{padding:28px 16px 24px}
+  .lp-title{font-size:26px}
+  .lp-modules{padding:20px 16px 36px}
+  .lp-grid{grid-template-columns:repeat(auto-fill,minmax(140px,1fr))}
+}
+
+.hh{text-align:center;padding:50px 32px 32px;position:relative}
+.hh::before{
+  content:'INITIALIZING SYSTEM...';
+  font-family:'Share Tech Mono',monospace;
+  font-size:10px;color:var(--dim);
+  letter-spacing:3px;display:block;margin-bottom:20px;
+  animation:blink-text 2s step-end infinite;
+}
+@keyframes blink-text{0%,100%{opacity:1}50%{opacity:0.3}}
+
+.ht{
+  font-family:'Orbitron',monospace;
+  font-weight:900;font-size:48px;
+  color:var(--acc);line-height:1.1;
+  letter-spacing:4px;margin-bottom:10px;
+  text-shadow:var(--glow);
+  animation:glitch-text 10s infinite;
+}
+.ht-sub{
+  font-family:'Share Tech Mono',monospace;
+  font-size:11px;color:var(--dim);
+  letter-spacing:3px;text-transform:uppercase;
+  margin-bottom:32px;
+}
+.hd{color:var(--dim);font-size:13px;max-width:500px;margin:0 auto 36px;line-height:1.7;font-family:'Share Tech Mono',monospace}
+
+/* ── STATUS BAR di home ── */
+.status-bar{
+  display:flex;align-items:center;justify-content:center;
+  gap:20px;margin-bottom:32px;flex-wrap:wrap;
+}
+.stat{
+  font-family:'Share Tech Mono',monospace;
+  font-size:10px;color:var(--dim);
+  display:flex;align-items:center;gap:6px;
+}
+.stat-dot{
+  width:6px;height:6px;border-radius:50%;
+  background:var(--acc);
+  box-shadow:var(--glow);
+  animation:pulse-dot 1.5s ease-in-out infinite;
+}
+@keyframes pulse-dot{0%,100%{opacity:1;transform:scale(1)}50%{opacity:0.5;transform:scale(0.8)}}
+
+.lg{display:grid;grid-template-columns:repeat(auto-fill,minmax(140px,1fr));gap:10px;padding:0 32px 50px}
+.lc{
+  --lc:#00ff41;
+  background:rgba(0,8,0,0.9);
+  border:1px solid color-mix(in srgb,var(--lc) 20%,transparent);
+  border-radius:3px;
+  padding:16px 12px;cursor:pointer;
+  transition:all .25s;text-align:center;
+  position:relative;overflow:hidden;
+}
+.lc::before{
+  content:'';position:absolute;
+  top:-50%;left:-50%;
+  width:200%;height:200%;
+  background:conic-gradient(transparent,color-mix(in srgb,var(--lc) 12%,transparent),transparent 30%);
+  animation:rotate-glow 6s linear infinite;
+  opacity:0;transition:opacity .3s;
+}
+.lc:hover::before{opacity:1}
+@keyframes rotate-glow{to{transform:rotate(360deg)}}
+@keyframes lci-spin{
+  0%  {transform:perspective(120px) rotateY(0deg)}
+  40% {transform:perspective(120px) rotateY(220deg) scale(1.1)}
+  70% {transform:perspective(120px) rotateY(340deg) scale(0.95)}
+  100%{transform:perspective(120px) rotateY(360deg)}
+}
+@keyframes lcn-glitch{
+  0%,100%{clip-path:none;transform:none;opacity:1}
+  10%{clip-path:inset(20% 0 60% 0);transform:translateX(-3px);opacity:.9}
+  20%{clip-path:inset(60% 0 10% 0);transform:translateX(3px);opacity:.9}
+  30%{clip-path:inset(40% 0 30% 0);transform:translateX(-2px)}
+  40%{clip-path:none;transform:none}
+  55%{clip-path:inset(10% 0 70% 0);transform:translateX(2px)}
+  65%{clip-path:none;transform:none}
+}
+.lc:hover{
+  border-color:var(--lc);
+  box-shadow:0 0 20px color-mix(in srgb,var(--lc) 20%,transparent);
+  transform:translateY(-2px);
+}
+.lci{
+  font-size:24px;margin-bottom:10px;
+  display:flex;align-items:center;justify-content:center;
+  filter: drop-shadow(0 0 4px currentColor);
+  transition: filter .25s;
+}
+.lc:hover .lci{ filter: drop-shadow(0 0 10px currentColor); }
+.lc:active .lci{ animation: lci-spin 0.55s cubic-bezier(.4,0,.2,1) both; }
+.lc.clicked .lci{ animation: lci-spin 0.55s cubic-bezier(.4,0,.2,1) both; }
+.lc.clicked .lcn{ animation: lcn-glitch 0.5s steps(1) both; color:var(--lc); text-shadow:0 0 8px var(--lc),2px 0 #ff003c,-2px 0 #00aaff; }
+.lcn{
+  font-family:'Share Tech Mono',monospace;
+  font-weight:700;font-size:11px;color:var(--lc);
+  margin-bottom:4px;letter-spacing:.5px;
+}
+.lcc{font-size:10px;color:var(--dim);font-family:'Share Tech Mono',monospace}
+.lc:hover .lcn{color:var(--lc);text-shadow:0 0 8px var(--lc)}
+
+/* ── CORNER DECORATIONS ── */
+.corner-tl,.corner-tr,.corner-bl,.corner-br{
+  position:absolute;width:12px;height:12px;
+  border-color:var(--acc);
+  opacity:0.6;
+}
+.corner-tl{top:6px;left:6px;border-top:1px solid;border-left:1px solid}
+.corner-tr{top:6px;right:6px;border-top:1px solid;border-right:1px solid}
+.corner-bl{bottom:6px;left:6px;border-bottom:1px solid;border-left:1px solid}
+.corner-br{bottom:6px;right:6px;border-bottom:1px solid;border-right:1px solid}
+
+/* ── MOBILE ── */
+@media(max-width:768px){
+  #toc{display:none}
+  #mc{padding:16px 14px;max-width:100%}
+  #mb{display:flex}
+  #sbc{display:flex}
+  #sb{
+    position:fixed;left:-310px;top:0;bottom:0;
+    width:300px;min-width:300px;z-index:100;box-shadow:none;
+  }
+  #sb.open{left:0;box-shadow:0 0 40px rgba(0,255,65,0.2)}
+  #sbh{padding-right:50px}
+  .ht{font-size:24px}.hh{padding:28px 16px 20px}
+  .lg{padding:0 14px 36px;grid-template-columns:repeat(auto-fill,minmax(110px,1fr))}
+  .dt{font-size:20px}
+  pre{padding:12px 14px;font-size:11.5px}
+}
+@media(min-width:769px) and (max-width:1100px){
+  #toc{display:none}
+  #mc{padding:28px 28px}
+}
+</style>
+<link rel="icon" type="image/x-icon" href="data:image/x-icon;base64,AAABAAEAEBAAAAAAIADoAAAAFgAAAIlQTkcNChoKAAAADUlIRFIAAAAQAAAAEAgGAAAAH/P/YQAAAK9JREFUeJxjZGBgYGD47/ifgUzARIlmBgYGBhY4S2A/6bo/ODIwUWI7AwMDtQ3YYcTAsFYfU5UUOwPDB0cGhigJIlwQfgmV367CwPDrHwND0S0iXIAORNkYGP4zMDC8+Y1TCX4DUqQZGOY8xasE04CVehCam5mBQYKNgeHed0gY9KlhNYAFhedxDsGOk2JgWPQcwn72E2c6YcEqysDAwDD9MR6HI8BgS0hkAEZKcyMAFbwhcTQAVH8AAAAASUVORK5CYII=">
+<link rel="icon" type="image/png" sizes="32x32" href="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAACAAAAAgCAYAAABzenr0AAABRUlEQVR4nO2Xv0rDUBSHv5suBooUoaKDcdBRBAcnBYkPoOALuBdKfQSfwT+LODk4uohzcHZ1djCUiggGcSgorUNMk6ZRwr3kpEN+U3KTe34fOZeTc6BkqYmVoTss3tUb+Vri5ikflbVIwyvOPHDja+UpJWqeATGeAgnzlI/1z2siqgCmHOB4JTyxgQttJ1/Ezdl4z92GIUCkhXs4fc5+ZtfgaRv2m+H9w0d4yh8/c4U2T8HhIgTfcPumtd0MoKagtQRnPgz0qrgZwME82BZc97RDmAG0HbjoQn9QAsDuHKzacNnVDmEG0HHgqgfvXyUArNdhqwHnvpG5PsDRMty8gt8XAnjZiSuhMwN7TTj5ozBFlXCtniv0eEMi1Q/AqCmZ8p9RBVABiAMkh4YiNTEXJGa1wiEyJ6NIUrPhrzmkU5D8EgLmAD8ULVBBMTjUhAAAAABJRU5ErkJggg==">
+<link rel="manifest" href="manifest.json">
+<link rel="icon" type="image/png" sizes="192x192" href="icon-192.png">
+<link rel="apple-touch-icon" sizes="192x192" href="icon-192.png">
+<meta name="theme-color" content="#00ff41">
+<meta name="mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+<meta name="apple-mobile-web-app-title" content="OLPL">
+<meta name="application-name" content="OLPL">
+</head>
+<body>
+
+<canvas id="matrix-canvas"></canvas>
+
+<div id="ov" onclick="closeSB()"></div>
+
+<div id="sb">
+  <div id="sbh">
+    <div class="logo" style="cursor:pointer" onclick="goHome()">
+      <div class="logo-i" id="logo-i">[/]</div>
+      <span id="logo-text">OLPL</span>
+    </div>
+    <div class="logo-sub">Orias Library Programming Language</div>
+    <div id="sbc" onclick="closeSB()">&#x2715;</div>
+    <input type="text" id="search" placeholder="search topics..." oninput="filterNav(this.value)">
+  </div>
+  <div id="lt"></div>
+  <div id="nl"></div>
+</div>
+
+<div id="ca">
+  <div id="tb">
+    <div id="mb" onclick="openSB()">
+      <svg width="16" height="12" viewBox="0 0 16 12" fill="none">
+        <rect width="16" height="2" rx="1" fill="#00ff41"/>
+        <rect y="5" width="12" height="2" rx="1" fill="#00ff41"/>
+        <rect y="10" width="16" height="2" rx="1" fill="#00ff41"/>
+      </svg>
+    </div>
+    <div class="bc">
+      <span class="bci">OLPL</span>
+      <span class="bcs">&#x276F;</span>
+      <span class="bcc" id="bcc">HOME</span>
+    </div>
+    <div id="tbr"></div>
+  </div>
+  <div id="wr">
+    <div id="mc">
+      <div id="lp"></div>
+      <div id="hp">
+        <div class="hh">
+          <div class="ht" id="home-title" onclick="triggerGlitch()" style="cursor:pointer">OLPL</div>
+          <div class="ht-sub">[ Orias Library Programming Language ]</div>
+          <p class="hd">Dokumentasi lengkap 10+ bahasa pemrograman &amp; desain.<br>Dari sintaks dasar hingga animasi, SVG, dan 3D.</p>
+          <div class="status-bar">
+            <div class="stat"><div class="stat-dot"></div>SYSTEM ONLINE</div>
+            <div class="stat"><div class="stat-dot" style="background:#4db8ff;box-shadow:0 0 8px #4db8ff"></div>ALL MODULES LOADED</div>
+            <div class="stat"><div class="stat-dot" style="background:#ffd166;box-shadow:0 0 8px #ffd166"></div>ACCESS GRANTED</div>
+          </div>
+        </div>
+        <div class="lg" id="hg"></div>
+      </div>
+      <div id="dv"></div>
+    </div>
+    <div id="toc">
+      <div class="toc-t">On This Page</div>
+      <div id="ti"></div>
+    </div>
+  </div>
+</div>
+
+<script>
+
+// ═══════════════════════════════════════
+// MATRIX RAIN ANIMATION
+// ═══════════════════════════════════════
+(function(){
+  const canvas = document.getElementById('matrix-canvas');
+  const ctx = canvas.getContext('2d');
+  const chars = '01アイウエオカキクケコサシスセソタチツテトナニヌネノハヒフヘホマミムメモ{}[]<>()=+-*/;:.,!?@#$%^&|~ABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789';
+  let drops = [];
+  let W, H;
+
+  function resize(){
+    W = canvas.width  = window.innerWidth;
+    H = canvas.height = window.innerHeight;
+    const cols = Math.floor(W / 14);
+    drops = Array.from({length: cols}, () => Math.random() * -100);
+  }
+  resize();
+  window.addEventListener('resize', resize);
+
+  function draw(){
+    ctx.fillStyle = 'rgba(0,4,0,0.05)';
+    ctx.fillRect(0,0,W,H);
+    for(let i=0;i<drops.length;i++){
+      const ch = chars[Math.floor(Math.random()*chars.length)];
+      const x  = i * 14;
+      const y  = drops[i] * 14;
+      const brightness = Math.random();
+      if(brightness > 0.97){
+        ctx.fillStyle = '#ffffff';
+        ctx.shadowBlur = 8;
+        ctx.shadowColor = '#00ff41';
+      } else if(brightness > 0.8){
+        ctx.fillStyle = '#00ff41';
+        ctx.shadowBlur = 4;
+        ctx.shadowColor = '#00ff41';
+      } else {
+        ctx.fillStyle = '#006622';
+        ctx.shadowBlur = 0;
+        ctx.shadowColor = 'transparent';
+      }
+      ctx.font = '13px "Share Tech Mono", monospace';
+      ctx.fillText(ch, x, y);
+      if(y > H && Math.random() > 0.975) drops[i] = 0;
+      drops[i] += 0.5;
+    }
+    ctx.shadowBlur = 0;
+  }
+  setInterval(draw, 50);
+})();
+
+// ═══════════════════════════════════════
+// DATA
+// ═══════════════════════════════════════
+const LANGS={
+  js:    {label:"JavaScript", color:"#ffd166", bg:"rgba(42,37,0,0.8)",  icon:`<svg width="28" height="28" viewBox="0 0 28 28" fill="none"><rect width="28" height="28" rx="4" fill="#ffd16622"/><text x="5" y="20" font-family="monospace" font-weight="900" font-size="13" fill="#ffd166">JS</text></svg>`, cls:"ljs"},
+  py:    {label:"Python",     color:"#4db8ff", bg:"rgba(0,26,46,0.8)",  icon:`<svg width="28" height="28" viewBox="0 0 28 28" fill="none"><rect width="28" height="28" rx="4" fill="#4db8ff22"/><text x="5" y="20" font-family="monospace" font-weight="900" font-size="13" fill="#4db8ff">PY</text></svg>`, cls:"lpy"},
+  css:   {label:"CSS",        color:"#c084fc", bg:"rgba(26,15,42,0.8)", icon:`<svg width="28" height="28" viewBox="0 0 28 28" fill="none"><rect width="28" height="28" rx="4" fill="#c084fc22"/><text x="3" y="20" font-family="monospace" font-weight="900" font-size="12" fill="#c084fc">CSS</text></svg>`, cls:"lcss"},
+  html:  {label:"HTML",       color:"#ff8c42", bg:"rgba(42,15,0,0.8)",  icon:`<svg width="28" height="28" viewBox="0 0 28 28" fill="none"><rect width="28" height="28" rx="4" fill="#ff8c4222"/><text x="14" y="12" text-anchor="middle" font-family="monospace" font-weight="900" font-size="9" fill="#ff8c42">&lt;/&gt;</text><text x="14" y="23" text-anchor="middle" font-family="monospace" font-weight="700" font-size="8" fill="#ff8c42">HTML</text></svg>`, cls:"lhtml"},
+  ts:    {label:"TypeScript", color:"#60a5fa", bg:"rgba(0,21,48,0.8)",  icon:`<svg width="28" height="28" viewBox="0 0 28 28" fill="none"><rect width="28" height="28" rx="4" fill="#60a5fa22"/><text x="5" y="20" font-family="monospace" font-weight="900" font-size="13" fill="#60a5fa">TS</text></svg>`, cls:"lts"},
+  react: {label:"React",      color:"#38bdf8", bg:"rgba(0,21,37,0.8)",  icon:`<svg width="28" height="28" viewBox="0 0 28 28" fill="none"><rect width="28" height="28" rx="4" fill="#38bdf822"/><ellipse cx="14" cy="14" rx="10" ry="4" stroke="#38bdf8" stroke-width="1.2" fill="none"/><ellipse cx="14" cy="14" rx="10" ry="4" stroke="#38bdf8" stroke-width="1.2" fill="none" transform="rotate(60 14 14)"/><ellipse cx="14" cy="14" rx="10" ry="4" stroke="#38bdf8" stroke-width="1.2" fill="none" transform="rotate(120 14 14)"/><circle cx="14" cy="14" r="2" fill="#38bdf8"/></svg>`, cls:"lreact"},
+  anim:  {label:"Animasi CSS",color:"#00ff41", bg:"rgba(0,20,5,0.8)",   icon:`<svg width="28" height="28" viewBox="0 0 28 28" fill="none"><rect width="28" height="28" rx="4" fill="#00ff4122"/><path d="M5 14 Q9 6 14 14 Q19 22 23 14" stroke="#00ff41" stroke-width="1.5" fill="none"/><circle cx="5" cy="14" r="1.5" fill="#00ff41"/><circle cx="23" cy="14" r="1.5" fill="#00ff41"/></svg>`, cls:"lanim"},
+  svg:   {label:"SVG",        color:"#f472b6", bg:"rgba(26,10,26,0.8)", icon:`<svg width="28" height="28" viewBox="0 0 28 28" fill="none"><rect width="28" height="28" rx="4" fill="#f472b622"/><polygon points="14,5 23,22 5,22" stroke="#f472b6" stroke-width="1.2" fill="#f472b611"/></svg>`, cls:"lsvg"},
+  three: {label:"Three.js",   color:"#7dd3fc", bg:"rgba(0,10,26,0.8)",  icon:`<svg width="28" height="28" viewBox="0 0 28 28" fill="none"><rect width="28" height="28" rx="4" fill="#7dd3fc22"/><rect x="8" y="8" width="12" height="12" rx="1" stroke="#7dd3fc" stroke-width="1.2" fill="#7dd3fc11" transform="rotate(15 14 14)"/><rect x="10" y="10" width="8" height="8" rx="1" stroke="#7dd3fc99" stroke-width="1" fill="none" transform="rotate(-5 14 14)"/></svg>`, cls:"lthree"},
+  sql:   {label:"SQL",        color:"#fb923c", bg:"rgba(32,8,0,0.8)",   icon:`<svg width="28" height="28" viewBox="0 0 28 28" fill="none"><rect width="28" height="28" rx="4" fill="#fb923c22"/><ellipse cx="14" cy="9" rx="7" ry="3" stroke="#fb923c" stroke-width="1.2" fill="#fb923c11"/><path d="M7 9 L7 19 Q7 22 14 22 Q21 22 21 19 L21 9" stroke="#fb923c" stroke-width="1.2" fill="none"/><line x1="7" y1="14" x2="21" y2="14" stroke="#fb923c55" stroke-width="1"/></svg>`, cls:"lsql"},
+};
+const NAV={
+  js:{
+    "DASAR":[
+      {id:"js-var",  t:"Variabel & Tipe Data",          n:"48"},
+      {id:"js-op",   t:"Operator",                      n:"30"},
+      {id:"js-cond", t:"Kondisional (if/else/switch)",  n:"12"},
+      {id:"js-loop", t:"Loop (for/while/do-while)",     n:"18"},
+      {id:"js-fn",   t:"Fungsi & Arrow Function",       n:"25"},
+      {id:"js-scope",t:"Scope, Hoisting & Closure",     n:"15"},
+    ],
+    "STRUKTUR DATA":[
+      {id:"js-arr",  t:"Array & 40+ Method",            n:"48"},
+      {id:"js-obj",  t:"Object & Destructuring",        n:"38"},
+      {id:"js-str",  t:"String & Template Literal",     n:"35"},
+      {id:"js-map",  t:"Map, Set, WeakMap",             n:"20"},
+    ],
+    "OOP & LANJUTAN":[
+      {id:"js-class",t:"Class & OOP",                   n:"22"},
+      {id:"js-async",t:"Async/Await & Promise",         n:"20"},
+      {id:"js-err",  t:"Error Handling",                n:"14"},
+      {id:"js-mod",  t:"ES Modules (import/export)",    n:"10"},
+    ],
+    "DOM & BROWSER":[
+      {id:"js-dom",  t:"DOM Manipulation",              n:"55"},
+      {id:"js-ev",   t:"Event Listener",                n:"40"},
+      {id:"js-fetch",t:"Fetch API & AJAX",              n:"16"},
+    ],
+  },
+  py:{
+    "DASAR":[
+      {id:"py-var",  t:"Variabel & Tipe Data",          n:"40"},
+      {id:"py-str",  t:"String & Format",               n:"35"},
+      {id:"py-list", t:"List, Tuple & Set",             n:"30"},
+      {id:"py-dict", t:"Dictionary",                    n:"22"},
+      {id:"py-loop", t:"Loop & Comprehension",          n:"18"},
+      {id:"py-fn",   t:"Fungsi & Lambda",               n:"28"},
+    ],
+    "OOP":[
+      {id:"py-cls",  t:"Class & Object",                n:"25"},
+      {id:"py-inh",  t:"Inheritance & Mixin",           n:"15"},
+    ],
+    "LIBRARY STANDAR":[
+      {id:"py-os",   t:"os & pathlib",                  n:"18"},
+      {id:"py-json", t:"json & csv",                    n:"12"},
+      {id:"py-re",   t:"Regex (re)",                    n:"16"},
+    ],
+  },
+  css:{
+    "DASAR":[
+      {id:"css-sel", t:"Selector & Spesifisitas",       n:"40"},
+      {id:"css-box", t:"Box Model",                     n:"15"},
+      {id:"css-pos", t:"Position (static/rel/abs/fix)", n:"10"},
+      {id:"css-col", t:"Warna & Gradient",              n:"25"},
+      {id:"css-typ", t:"Typography & Font",             n:"30"},
+    ],
+    "LAYOUT":[
+      {id:"css-flex",t:"Flexbox Lengkap",               n:"20"},
+      {id:"css-grid",t:"CSS Grid Lengkap",              n:"22"},
+      {id:"css-resp",t:"Responsive & Media Query",      n:"18"},
+    ],
+    "VISUAL & EFEK":[
+      {id:"css-var", t:"CSS Variable",                  n:"8"},
+      {id:"css-tfm", t:"Transform (2D & 3D)",           n:"14"},
+      {id:"css-shad",t:"Box Shadow & Drop Shadow",      n:"12"},
+    ],
+  },
+  html:{
+    "GUIDES":[
+      {id:"html-csheet",   t:"Cheatsheet",            n:"10"},
+      {id:"html-comm", t:"Comments",              n:"25"},
+      {id:"html-cvalid",   t:"Constraint Validation", n:"30"},
+      {id:"html-ccateg",   t:"Content Categories",    n:"20"},   
+      {id:"html-datetime", t:"Date and Time Format",  n:"10"}
+    ],
+    "STRUKTUR":[
+      {id:"html-base",t:"Struktur Dasar & DOCTYPE",     n:"10"},
+      {id:"html-sem", t:"Semantic HTML5",               n:"25"},
+      {id:"html-txt", t:"Elemen Teks & Inline",         n:"30"},
+    ],
+    "MEDIA & FORM":[
+      {id:"html-lnk", t:"Link & Anchor",                n:"12"},
+      {id:"html-img", t:"Gambar, Video & Audio",        n:"15"},
+      {id:"html-frm", t:"Form & Input Lengkap",         n:"35"},
+      {id:"html-tbl", t:"Tabel",                        n:"15"},
+    ],
+  },
+  ts:{
+    "DASAR":[
+      {id:"ts-types",t:"Types & Interface",             n:"30"},
+      {id:"ts-gen",  t:"Generics",                      n:"20"},
+      {id:"ts-enum", t:"Enum & Union Types",            n:"15"},
+      {id:"ts-util", t:"Utility Types",                 n:"18"},
+    ],
+  },
+  react:{
+    "CORE":[
+      {id:"rx-jsx",  t:"JSX & Rendering",               n:"15"},
+      {id:"rx-comp", t:"Component & Props",             n:"20"},
+      {id:"rx-hooks",t:"Hooks Lengkap",                 n:"30"},
+      {id:"rx-ev",   t:"Event Handling",                n:"18"},
+      {id:"rx-form", t:"Form & Controlled Input",       n:"14"},
+    ],
+    "LANJUTAN":[
+      {id:"rx-ctx",  t:"Context API",                   n:"12"},
+      {id:"rx-perf", t:"Performance & Memo",            n:"14"},
+    ],
+  },
+  anim:{
+    "CSS TRANSITION":[
+      {id:"an-trans", t:"Transition Dasar",             n:"12"},
+      {id:"an-timing",t:"Timing Function & Easing",     n:"10"},
+    ],
+    "CSS ANIMATION":[
+      {id:"an-kf",   t:"@keyframes Lengkap",            n:"20"},
+      {id:"an-prop", t:"Animation Properties",          n:"15"},
+      {id:"an-adv",  t:"Chaining & Stagger",            n:"18"},
+    ],
+    "TRANSFORM":[
+      {id:"an-2d",   t:"Transform 2D",                  n:"14"},
+      {id:"an-3d",   t:"Transform 3D & Perspective",    n:"16"},
+    ],
+    "TEKNIK":[
+      {id:"an-scroll",t:"Scroll Animation",              n:"12"},
+      {id:"an-var",   t:"Animasi CSS Variable",          n:"10"},
+      {id:"an-js",    t:"Animasi dengan JavaScript",     n:"15"},
+    ],
+  },
+  svg:{
+    "DASAR":[
+      {id:"sv-basic",t:"SVG Dasar & Viewport",          n:"15"},
+      {id:"sv-shape",t:"Shape & Path Commands",         n:"20"},
+      {id:"sv-txt",  t:"Text & tspan",                  n:"12"},
+    ],
+    "EFEK & ANIMASI":[
+      {id:"sv-grad", t:"Gradient & Pattern",            n:"14"},
+      {id:"sv-filt", t:"Filter (blur, shadow...)",      n:"12"},
+      {id:"sv-anim", t:"SVG Animation (SMIL & CSS)",    n:"18"},
+    ],
+    "INTERAKTIF":[
+      {id:"sv-js",   t:"SVG + JavaScript",              n:"16"},
+      {id:"sv-icon", t:"Icon System & Sprite",          n:"10"},
+    ],
+  },
+  three:{
+    "DASAR":[
+      {id:"th-setup",t:"Setup & Scene Dasar",           n:"12"},
+      {id:"th-geom", t:"Geometry & Material",           n:"18"},
+      {id:"th-light",t:"Lighting",                      n:"14"},
+      {id:"th-cam",  t:"Camera & Controls",             n:"12"},
+    ],
+    "LANJUTAN":[
+      {id:"th-anim", t:"Animasi & Loop",                n:"15"},
+      {id:"th-part", t:"Particle System",               n:"14"},
+    ],
+  },
+  sql:{
+    "QUERY":[
+      {id:"sq-sel",  t:"SELECT & WHERE Filter",         n:"25"},
+      {id:"sq-join", t:"JOIN (INNER, LEFT, RIGHT...)",  n:"18"},
+      {id:"sq-agg",  t:"Aggregate & GROUP BY",          n:"15"},
+      {id:"sq-sub",  t:"Subquery & CTE",                n:"12"},
+    ],
+    "DDL & DML":[
+      {id:"sq-ddl",  t:"CREATE, ALTER, DROP TABLE",     n:"18"},
+      {id:"sq-dml",  t:"INSERT, UPDATE, DELETE",        n:"14"},
+      {id:"sq-idx",  t:"Index & Optimisasi",            n:"12"},
+    ],
+  },
+};
+
+// Data modules loaded via external <script> tags
+const D={};
+
+// ═══════════════════════════════════════
+// ENGINE
+// ═══════════════════════════════════════
+const curState = { lang: 'js', doc: null };
+
+function buildTabs() {
+  const el = document.getElementById('lt');
+  el.innerHTML = '';
+  const labels = {js:'JS',py:'PY',css:'CSS',html:'HTML',ts:'TS',react:'RX',anim:'ANIM',svg:'SVG',three:'3JS',sql:'SQL'};
+  Object.entries(LANGS).forEach(([k,d]) => {
+    const t = document.createElement('div');
+    t.className = 'lt ' + d.cls + (k === curState.lang ? ' active' : '');
+    t.textContent = labels[k];
+    t.onclick = () => showLangPage(k);
+    el.appendChild(t);
+  });
+}
+
+function buildNav(lang, animate) {
+  const d = LANGS[lang];
+  const nl = document.getElementById('nl');
+  nl.innerHTML = '';
+  const secs = NAV[lang] || {};
+  let rowIndex = 0;
+  for (const [sec, items] of Object.entries(secs)) {
+    const s = document.createElement('div');
+    s.innerHTML = '<div class="ns">' + sec + '</div>';
+    items.forEach(item => {
+      const el = document.createElement('div');
+      const isActive = item.id === curState.doc;
+      el.className = 'ni' + (isActive ? ' active' : '') + (animate ? ' slide-in' : '');
+      if (animate) el.style.animationDelay = (rowIndex * 38) + 'ms';
+      el.innerHTML =
+        '<div class="nico" style="color:'+d.color+';border-color:'+d.color+'44">' +
+          lang.slice(0,2).toUpperCase() +
+        '</div>' +
+        '<span class="nlbl">' + item.t + '</span>' +
+        '<span class="ncnt">' + item.n + '</span>';
+      el.onclick = () => openDoc(item.id);
+      s.appendChild(el);
+      rowIndex++;
+    });
+    nl.appendChild(s);
+  }
+}
+
+function switchLang(lang) {
+  showLangPage(lang);
+}
+
+function openDoc(id) {
+  curState.doc = id;
+  buildNav(curState.lang, false);
+  const doc = D[id];
+  if (!doc) { showPlaceholder(id); return; }
+  document.getElementById('hp').style.display = 'none';
+  document.getElementById('lp').style.display = 'none';
+  const dv = document.getElementById('dv');
+  dv.innerHTML = doc.html;
+  dv.style.display = 'block';
+  pageGlitch(dv);
+  document.getElementById('bcc').textContent = doc.t.toUpperCase();
+  const d = LANGS[doc.lk];
+  document.getElementById('tbr').innerHTML =
+    '<span class="tbadge" style="color:'+doc.color+';border-color:'+doc.color+'66">'+doc.lang.toUpperCase()+'</span>';
+  const ti = document.getElementById('ti');
+  ti.innerHTML = '';
+  (doc.toc || []).forEach((t, i) => {
+    const el = document.createElement('div');
+    el.className = 'toc-i';
+    el.textContent = '> ' + t;
+    el.onclick = () => {
+      const target = document.getElementById('s'+i);
+      if (target) target.scrollIntoView({ behavior: 'smooth' });
+      document.querySelectorAll('.toc-i').forEach(x => x.classList.remove('active'));
+      el.classList.add('active');
+    };
+    ti.appendChild(el);
+  });
+  document.getElementById('mc').scrollTop = 0;
+  closeSB();
+  runHighlighter();
+}
+
+function showPlaceholder(id) {
+  document.getElementById('hp').style.display = 'none';
+  const dv = document.getElementById('dv');
+  dv.style.display = 'block';
+  const items = Object.values(NAV[curState.lang] || {}).flat();
+  const item = items.find(x => x.id === id);
+  const avail = items.filter(x => D[x.id]).slice(0, 6);
+  const d = LANGS[curState.lang];
+  const cards = avail.map(x =>
+    '<div class="card" onclick="openDoc(\''+x.id+'\')">'+
+      '<div class="ci">'+d.icon+'</div>'+
+      '<div class="cn">'+x.t+'</div>'+
+      '<div class="cd">'+x.n+' entries available</div>'+
+    '</div>'
+  ).join('');
+  dv.innerHTML =
+    '<h1 class="dt">' + (item ? item.t.toUpperCase() : id) + '</h1>' +
+    '<p class="ds">// Module not yet loaded. Check back soon.</p>' +
+    '<div class="cb warn"><div class="cbt">⚠ COMING SOON</div>This module is being compiled. Access available modules:</div>' +
+    '<div class="cg">' + cards + '</div>';
+}
+
+function filterNav(q) {
+  q = q.toLowerCase().replace('//', '').trim();
+  document.querySelectorAll('.ni').forEach(el => {
+    const lbl = el.querySelector('.nlbl');
+    if (!lbl) return;
+    el.style.display = lbl.textContent.toLowerCase().includes(q) ? '' : 'none';
+  });
+}
+
+function cp(btn) {
+  const code = btn.closest('pre').querySelector('code').innerText;
+  navigator.clipboard.writeText(code).then(() => {
+    btn.textContent = '[COPIED]';
+    setTimeout(() => btn.textContent = '[COPY]', 1500);
+  }).catch(() => {});
+}
+
+function openSB() {
+  document.getElementById('sb').classList.add('open');
+  document.getElementById('ov').classList.add('show');
+  document.body.style.overflow = 'hidden';
+}
+
+function closeSB() {
+  document.getElementById('sb').classList.remove('open');
+  document.getElementById('ov').classList.remove('show');
+  document.body.style.overflow = '';
+}
+
+function buildHomeGrid() {
+  const g = document.getElementById('hg');
+  g.innerHTML = '';
+  Object.entries(LANGS).forEach(([k, d]) => {
+    const total  = Object.values(NAV[k] || {}).flat().length;
+    const filled = Object.values(NAV[k] || {}).flat().filter(x => D[x.id]).length;
+    const el = document.createElement('div');
+    el.className = 'lc';
+    el.style.setProperty('--lc', d.color);
+    el.innerHTML =
+      '<div class="lci">' + d.icon + '</div>' +
+      '<div class="lcn">' + d.label.toUpperCase() + '</div>' +
+      '<div class="lcc">' + filled + '/' + total + ' modules</div>';
+    el.onclick = () => showLangPage(k);
+    g.appendChild(el);
+  });
+}
+
+// ── PAGE GLITCH HELPER ──
+function pageGlitch(el) {
+  // Force remove dulu agar bisa restart
+  el.style.animation = 'none';
+  el.style.clipPath   = '';
+  el.style.transform  = '';
+  el.style.filter     = '';
+  // Reflow
+  void el.offsetHeight;
+  // Apply via inline style agar pasti override
+  const dur = '0.55s';
+  el.style.animation =
+    `pg-clip ${dur} linear both,` +
+    `pg-shake ${dur} ease-out both,` +
+    `pg-chroma ${dur} ease-out both`;
+  el.addEventListener('animationend', () => {
+    el.style.animation  = '';
+    el.style.clipPath   = '';
+    el.style.transform  = '';
+    el.style.filter     = '';
+  }, {once:true});
+}
+
+// ── LOGO SPIN + GO HOME ──
+function spinLogo() {
+  const el = document.getElementById('logo-i');
+  el.classList.remove('spinning');
+  void el.offsetWidth;
+  el.classList.add('spinning');
+  el.addEventListener('animationend', () => el.classList.remove('spinning'), {once:true});
+}
+
+function goHome() {
+  spinLogo();
+  // glitch logo text
+  const lt = document.getElementById('logo-text');
+  if(lt){ lt.classList.remove('glitch-burst'); void lt.offsetWidth; lt.classList.add('glitch-burst');
+    lt.addEventListener('animationend',()=>lt.classList.remove('glitch-burst'),{once:true}); }
+  curState.doc = null;
+  curState.lang = 'js';
+  buildTabs();
+  buildNav('js', false);
+  document.getElementById('hp').style.display = 'block';
+  document.getElementById('lp').style.display = 'none';
+  document.getElementById('dv').style.display = 'none';
+  document.getElementById('bcc').textContent = 'HOME';
+  document.getElementById('tbr').innerHTML = '';
+  document.getElementById('ti').innerHTML = '';
+  closeSB();
+}
+
+function triggerGlitch() {
+  const el = document.getElementById('home-title');
+  el.classList.remove('glitch-burst');
+  void el.offsetWidth;
+  el.classList.add('glitch-burst');
+  el.addEventListener('animationend', () => el.classList.remove('glitch-burst'), {once:true});
+}
+
+const LANG_DESC = {"js": ("JavaScript", "Bahasa scripting yang menghidupkan web modern. Dari manipulasi DOM hingga async, functional programming, dan ekosistem yang tak terbatas.", ["Dynamic Typing", "Event-Driven", "Prototype-Based OOP", "First-class Functions"]), "py": ("Python", "Bahasa serbaguna dengan sintaks yang bersih dan ekspresif. Dominan di data science, automation, backend, dan AI.", ["Readable Syntax", "Dynamic & Interpreted", "Rich Standard Library", "Multi-paradigm"]), "css": ("CSS", "Bahasa styling yang mengatur tampilan visual web. Dari layout flexbox/grid hingga animasi kompleks dan efek visual modern.", ["Cascade & Specificity", "Box Model", "Flexbox & Grid", "Custom Properties"]), "html": ("HTML", "Tulang punggung struktur web. Markup semantik yang mendefinisikan konten, aksesibilitas, dan fondasi setiap halaman.", ["Semantic Elements", "Accessibility (a11y)", "Forms & Inputs", "SEO Foundation"]), "ts": ("TypeScript", "Superset JavaScript dengan static typing. Deteksi error di waktu kompilasi, tooling lebih baik, kode lebih aman dan scalable.", ["Static Typing", "Interfaces & Generics", "Compile-time Safety", "Enhanced IDE Support"]), "react": ("React", "Library UI berbasis komponen dari Meta. Declarative, component-driven, dengan ekosistem hooks dan state management yang kuat.", ["Component-Based", "Virtual DOM", "Unidirectional Data Flow", "Rich Hook System"]), "anim": ("Animasi CSS", "Animasi web tanpa JavaScript. Keyframes, transitions, transform, dan efek visual yang berjalan di GPU untuk performa optimal.", ["Keyframe Animations", "CSS Transitions", "Transform & 3D", "Performance on GPU"]), "svg": ("SVG", "Grafis vektor berbasis XML yang scalable di semua resolusi. Animatable, styleable dengan CSS, dan ideal untuk ikon dan ilustrasi web.", ["Vector-based", "CSS Styleable", "Animatable", "Resolution Independent"]), "three": ("Three.js", "Library 3D berbasis WebGL. Buat scene 3D, geometri, material, pencahayaan, dan animasi langsung di browser tanpa plugin.", ["WebGL Abstraction", "Scene Graph", "PBR Materials", "Real-time Rendering"]), "sql": ("SQL", "Bahasa query standar untuk database relasional. Dari SELECT dasar hingga JOIN kompleks, agregasi, dan optimasi query.", ["Declarative Query", "ACID Transactions", "Relational Model", "Set-based Operations"])};
+
+function showLangPage(lang) {
+  const d = LANGS[lang];
+  const info = LANG_DESC[lang];
+  if (!info) { switchLang(lang); return; }
+
+  curState.lang = lang;
+  curState.doc = null;
+  buildTabs();
+  buildNav(lang, true);
+
+  const lp = document.getElementById('lp');
+  const secs = NAV[lang] || {};
+  const totalModules = Object.values(secs).flat().length;
+  const totalEntries = Object.values(secs).flat().reduce((a,x)=>a+(parseInt(x.n)||0),0);
+
+  // Build features badges
+  const features = info[2].map(f =>
+    `<span style="display:inline-block;padding:3px 10px;border:1px solid ${d.color}44;border-radius:2px;
+     font-family:'Share Tech Mono',monospace;font-size:9px;color:${d.color};letter-spacing:.5px;
+     margin:3px 4px 3px 0;background:${d.color}0d">${f}</span>`
+  ).join('');
+
+  // Build module sections
+  let sectionsHtml = '';
+  let cardIndex = 0;
+  for (const [sec, items] of Object.entries(secs)) {
+    const cards = items.map((item, i) => {
+      const delay = (cardIndex + i) * 35;
+      return `<div class="lp-card card-in" style="animation-delay:${delay}ms" onclick="openDoc('${item.id}')">
+        <div class="lp-card-name">${item.t}</div>
+        <div class="lp-card-n">${item.n} entries</div>
+      </div>`;
+    }).join('');
+    cardIndex += items.length;
+    sectionsHtml += `<div class="lp-sec-title">${sec}</div><div class="lp-grid">${cards}</div>`;
+  }
+
+  lp.style.setProperty('--lp-color', d.color);
+  lp.innerHTML = `
+    <div class="lp-hero">
+      <div class="lp-tag">// ${lang.toUpperCase()} — LANGUAGE OVERVIEW</div>
+      <div class="lp-title glitch-title">${info[0].toUpperCase()}</div>
+      <div class="lp-desc">${info[1]}</div>
+      <div class="lp-stats">
+        <div class="lp-stat"><span class="lp-stat-val">${totalModules}</span>MODULES</div>
+        <div class="lp-stat"><span class="lp-stat-val">${totalEntries}</span>ENTRIES</div>
+        <div class="lp-stat"><span style="display:flex;flex-wrap:wrap;margin-top:4px">${features}</span>KEY CONCEPTS</div>
+      </div>
+    </div>
+    <div class="lp-modules">${sectionsHtml}</div>`;
+
+  document.getElementById('hp').style.display = 'none';
+  document.getElementById('dv').style.display = 'none';
+  lp.style.display = 'block';
+  pageGlitch(lp);
+  document.getElementById('bcc').textContent = info[0].toUpperCase();
+  document.getElementById('tbr').innerHTML =
+    `<span class="tbadge" style="color:${d.color};border-color:${d.color}66">${lang.toUpperCase()}</span>`;
+  document.getElementById('ti').innerHTML = '';
+}
+
+// ── INIT ──
+buildTabs();
+buildNav('js', false);
+buildHomeGrid();
+
+// Tambah .clicked saat card di-click (untuk trigger CSS animation)
+document.addEventListener('click', e => {
+  const card = e.target.closest('.lc');
+  if (!card) return;
+  card.classList.remove('clicked');
+  void card.offsetWidth;
+  card.classList.add('clicked');
+  card.addEventListener('animationend', () => card.classList.remove('clicked'), {once:true});
+});
+
+// ═══════════════════════════════════════
+// AUTO SYNTAX HIGHLIGHTER
+// Runs after doc HTML is injected to highlight
+// code blocks that don't already have <span> tags
+// ═══════════════════════════════════════
+function escRE(s) { return s.replace(/[.*+?^${}()|[\]\\]/g,'\\$&'); }
+
+const HLRULES = {
+  'CSS': [
+    [/\/\*[\s\S]*?\*\//g,                      '<span class="cm">$&</span>'],
+    [/(^|\s|[{;,])([\w-]+)(\s*:)/gm,           '$1<span class="at">$2</span>$3'],
+    [/:\s*([^;{}\n]+)/g,                        ': <span class="val">$1</span>'],
+    [/(#[\w-]+|\.[\w-]+|::?[\w-]+(?:\([^)]*\))?)/g, '<span class="cls">$1</span>'],
+    [/(@[\w-]+)/g,                              '<span class="at">$1</span>'],
+    [/(\b\d+(\.\d+)?(px|em|rem|vh|vw|%|s|ms|deg|fr)?\b)/g, '<span class="num">$1</span>'],
+  ],
+  'HTML': [
+    [/(&lt;!--[\s\S]*?--&gt;)/g,               '<span class="cm">$1</span>'],
+    [/(&lt;\/?)([\w-]+)/g,                      '<span class="tag">$1$2</span>'],
+    [/([\w-]+)(=)/g,                            '<span class="attr">$1</span>$2'],
+    [/=(&quot;[^"]*&quot;|"[^"]*"|'[^']*')/g,   '=<span class="val">$1</span>'],
+  ],
+  'SQL': [
+    [/--[^\n]*/g,                               '<span class="cm">$&</span>'],
+    [/\b(SELECT|FROM|WHERE|JOIN|LEFT|RIGHT|INNER|OUTER|ON|AS|GROUP BY|ORDER BY|HAVING|INSERT|INTO|VALUES|UPDATE|SET|DELETE|CREATE|ALTER|DROP|TABLE|INDEX|VIEW|WITH|UNION|DISTINCT|LIMIT|OFFSET|RETURNING|EXISTS|IN|NOT|AND|OR|IS|NULL|COUNT|SUM|AVG|MIN|MAX|COALESCE|CASE|WHEN|THEN|ELSE|END)\b/gi, '<span class="kw">$1</span>'],
+    [/\b(\d+(\.\d+)?)\b/g,                      '<span class="num">$1</span>'],
+    [/'([^']*)'/g,                              '<span class="str">\'$1\'</span>'],
+    [/\b([\w]+)\s*\(/g,                         '<span class="fn">$1</span>('],
+  ],
+  'Python': [
+    [/#[^\n]*/g,                                '<span class="cm">$&</span>'],
+    [/\b(def|class|return|if|elif|else|for|while|import|from|as|in|not|and|or|is|None|True|False|lambda|try|except|finally|raise|with|yield|async|await|pass|break|continue|del|global|nonlocal)\b/g, '<span class="kw">$1</span>'],
+    [/"""[\s\S]*?"""|\'\'\'[\s\S]*?\'\'\'/g,   '<span class="str">$&</span>'],
+    [/"([^"\\]|\\.)*"|'([^'\\]|\\.)*'/g,       '<span class="str">$&</span>'],
+    [/\b(\d+(\.\d+)?)\b/g,                      '<span class="num">$1</span>'],
+    [/\b([A-Z][a-zA-Z0-9_]*)\b/g,              '<span class="cls">$1</span>'],
+    [/\b([a-z_]\w*)\s*\(/g,                     '<span class="fn">$1</span>('],
+    [/(@[\w.]+)/g,                              '<span class="at">$1</span>'],
+    [/\b([a-z_]\w*)\b(?!\s*[\(:])/g,           '<span class="var">$1</span>'],
+  ],
+};
+
+function autoHighlight(el, lang) {
+  // Skip if already has span children (manually highlighted)
+  if (el.querySelector('span')) return;
+
+  let text = el.innerHTML;
+  const rules = HLRULES[lang];
+  if (!rules) return;
+
+  // Protect existing HTML entities
+  rules.forEach(([re, repl]) => {
+    text = text.replace(re, repl);
+  });
+  el.innerHTML = text;
+}
+
+// Run auto syntax highlighter after doc is loaded
+function runHighlighter() {
+  requestAnimationFrame(() => {
+    document.querySelectorAll('#dv pre[data-lang] code').forEach(el => {
+      const lang = el.closest('pre').getAttribute('data-lang');
+      autoHighlight(el, lang);
+    });
+  });
+}
+
+</script>
+
+<script src="data/js.js"></script>
+<script src="data/py.js"></script>
+<script src="data/css.js"></script>
+<script src="data/html.js"></script>
+<script src="data/ts.js"></script>
+<script src="data/react.js"></script>
+<script src="data/anim.js"></script>
+<script src="data/svg.js"></script>
+<script src="data/three.js"></script>
+<script src="data/sql.js"></script>
+<script>
+// ── PWA: Register Service Worker ──
+if ('serviceWorker' in navigator) {
+  window.addEventListener('load', () => {
+    navigator.serviceWorker.register('./sw.js')
+      .then(reg => console.log('[OLPL] SW registered, scope:', reg.scope))
+      .catch(err => console.warn('[OLPL] SW failed:', err));
+  });
+}
+
+// ── PWA: Install Banner ──
+let deferredPrompt = null;
+
+window.addEventListener('beforeinstallprompt', (e) => {
+  e.preventDefault();
+  deferredPrompt = e;
+  setTimeout(showInstallBanner, 2500);
+});
+
+function showInstallBanner() {
+  if (document.getElementById('pwa-banner') || !deferredPrompt) return;
+  const banner = document.createElement('div');
+  banner.id = 'pwa-banner';
+  banner.style.cssText = [
+    'position:fixed','bottom:20px','left:50%','transform:translateX(-50%)',
+    'background:#001500','border:1px solid #00ff41','border-radius:6px',
+    'padding:12px 16px','z-index:9999','display:flex','align-items:center','gap:12px',
+    'font-family:"Share Tech Mono",monospace','font-size:12px','color:#00ff41',
+    'box-shadow:0 0 24px #00ff4144','max-width:320px','width:90%'
+  ].join(';');
+  banner.innerHTML = `
+    <div style="font-size:22px;flex-shrink:0">[/]</div>
+    <div style="flex:1;min-width:0">
+      <div style="font-weight:700;letter-spacing:1px">INSTALL OLPL</div>
+      <div style="color:#2d6b3d;font-size:10px;margin-top:2px">Pasang sebagai aplikasi</div>
+    </div>
+    <button onclick="installPWA()" style="background:#00ff41;color:#000;border:none;border-radius:3px;padding:6px 12px;cursor:pointer;font-family:'Share Tech Mono',monospace;font-size:11px;font-weight:700;letter-spacing:.5px;flex-shrink:0">INSTALL</button>
+    <button onclick="this.closest('#pwa-banner').remove()" style="background:none;border:none;color:#2d6b3d;cursor:pointer;font-size:18px;padding:0;flex-shrink:0;line-height:1">&#x2715;</button>
+  `;
+  document.body.appendChild(banner);
+}
+
+async function installPWA() {
+  if (!deferredPrompt) return;
+  deferredPrompt.prompt();
+  const { outcome } = await deferredPrompt.userChoice;
+  console.log('[OLPL] Install outcome:', outcome);
+  deferredPrompt = null;
+  const b = document.getElementById('pwa-banner');
+  if (b) b.remove();
+}
+
+window.addEventListener('appinstalled', () => {
+  console.log('[OLPL] App berhasil diinstall!');
+  deferredPrompt = null;
+  const b = document.getElementById('pwa-banner');
+  if (b) b.remove();
+});
+</script>
+
+</body>
+</html>
