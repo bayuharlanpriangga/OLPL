@@ -297,15 +297,49 @@ body::after{
 
 /* ── NAV LIST ── */
 #nl{flex:1;overflow-y:auto;padding:4px 0}
+.nsec{margin-bottom:2px}
 .ns{
-  padding:8px 14px 3px;
-  font-size:9px;font-weight:700;
-  letter-spacing:2px;text-transform:uppercase;
+  display:flex;align-items:center;gap:7px;
+  padding:8px 14px;
+  font-size:10px;font-weight:700;
+  letter-spacing:1.5px;text-transform:uppercase;
   color:var(--dim);
   font-family:'Share Tech Mono',monospace;
   border-left:2px solid var(--bd2);
   margin-left:12px;
+  cursor:pointer;
+  user-select:none;
+  transition:color .15s,background .15s;
 }
+.ns:hover{color:var(--txt);background:rgba(0,255,65,0.03)}
+.ns.open{color:var(--acc2)}
+.ns-caret{
+  display:inline-flex;align-items:center;justify-content:center;
+  width:10px;flex-shrink:0;
+  font-size:9px;color:var(--dim);
+  transition:transform .15s;
+}
+.ns.open .ns-caret{color:var(--acc)}
+.ns-lbl{flex:1;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.ns-count{
+  font-size:9px;font-weight:700;
+  color:var(--dim);
+  background:rgba(255,255,255,0.03);
+  border:1px solid var(--bd2);
+  border-radius:2px;
+  padding:1px 6px;
+  letter-spacing:0;
+  flex-shrink:0;
+}
+.ns.open .ns-count{color:var(--acc);border-color:var(--acc)44;background:rgba(0,255,65,0.06)}
+@keyframes nsec-body-in{
+  from{opacity:0}
+  to{opacity:1}
+}
+.nsec-body{
+  animation:nsec-body-in .18s ease-out both;
+}
+.nsec-body.collapsed{display:none}
 .ni{
   display:flex;align-items:center;gap:8px;
   padding:5px 14px;cursor:pointer;
@@ -337,7 +371,7 @@ body::after{
   font-family:'Share Tech Mono',monospace;
   border:1px solid currentColor;
 }
-.nlbl{font-size:12px;flex:1;font-family:'Share Tech Mono',monospace}
+.nlbl{font-size:12px;flex:1;font-family:'Share Tech Mono',monospace;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
 .ncnt{
   font-size:9px;
   background:rgba(0,255,65,0.08);
@@ -682,63 +716,198 @@ tr:hover td{background:rgba(0,255,65,0.03)}
 }
 @keyframes pulse-dot{0%,100%{opacity:1;transform:scale(1)}50%{opacity:0.5;transform:scale(0.8)}}
 
-.lg{display:grid;grid-template-columns:repeat(auto-fill,minmax(140px,1fr));gap:10px;padding:0 32px 50px}
-.lc{
+/* ═══════════════════════════════════════
+   HOLOGRAM CATEGORY PROJECTOR (home page)
+═══════════════════════════════════════ */
+.holo-wrap{
+  padding:10px 32px 50px;
+  display:flex;flex-direction:column;align-items:center;
+  user-select:none;-webkit-user-select:none;
+}
+.holo-stage{
   --lc:#00ff41;
-  background:rgba(0,8,0,0.9);
-  border:1px solid color-mix(in srgb,var(--lc) 20%,transparent);
-  border-radius:3px;
-  padding:16px 12px;cursor:pointer;
-  transition:all .25s;text-align:center;
-  position:relative;overflow:hidden;
+  --disc:var(--acc);
+  position:relative;
+  width:min(420px,90vw);
+  height:210px;
+  perspective:1150px;
+  display:flex;align-items:flex-end;justify-content:center;
+  touch-action:pan-y;
+  cursor:pointer;
 }
-.lc::before{
-  content:'';position:absolute;
-  top:-50%;left:-50%;
-  width:200%;height:200%;
-  background:conic-gradient(transparent,color-mix(in srgb,var(--lc) 12%,transparent),transparent 30%);
-  animation:rotate-glow 6s linear infinite;
-  opacity:0;transition:opacity .3s;
+/* ── piringan (disc) — satu-satunya elemen "hologram" di dasar ── */
+.holo-platform{
+  position:absolute;bottom:6px;left:50%;transform:translateX(-50%);
+  width:190px;height:40px;
+  z-index:2;
 }
-.lc:hover::before{opacity:1}
-@keyframes rotate-glow{to{transform:rotate(360deg)}}
-@keyframes lci-spin{
-  0%  {transform:perspective(120px) rotateY(0deg)}
-  40% {transform:perspective(120px) rotateY(220deg) scale(1.1)}
-  70% {transform:perspective(120px) rotateY(340deg) scale(0.95)}
-  100%{transform:perspective(120px) rotateY(360deg)}
+.holo-base{
+  position:absolute;bottom:0;left:0;right:0;margin:0 auto;
+  width:150px;height:14px;border-radius:50%;
+  background:radial-gradient(ellipse at center, color-mix(in srgb,var(--disc) 55%,transparent), transparent 75%);
+  box-shadow:0 0 25px 6px color-mix(in srgb,var(--disc) 35%,transparent);
 }
-@keyframes lcn-glitch{
-  0%,100%{clip-path:none;transform:none;opacity:1}
-  10%{clip-path:inset(20% 0 60% 0);transform:translateX(-3px);opacity:.9}
-  20%{clip-path:inset(60% 0 10% 0);transform:translateX(3px);opacity:.9}
-  30%{clip-path:inset(40% 0 30% 0);transform:translateX(-2px)}
-  40%{clip-path:none;transform:none}
-  55%{clip-path:inset(10% 0 70% 0);transform:translateX(2px)}
-  65%{clip-path:none;transform:none}
+.holo-base::before{
+  content:'';position:absolute;inset:-3px;left:-8px;right:-8px;
+  border:1px solid color-mix(in srgb,var(--disc) 45%,transparent);
+  border-radius:50%;
 }
-.lc:hover{
-  border-color:var(--lc);
-  box-shadow:0 0 20px color-mix(in srgb,var(--lc) 20%,transparent);
-  transform:translateY(-2px);
+.holo-ring{
+  position:absolute;bottom:16px;left:0;right:0;margin:0 auto;
+  width:170px;height:20px;border-radius:50%;
+  border:1px solid color-mix(in srgb,var(--disc) 55%,transparent);
+  box-shadow:0 0 14px color-mix(in srgb,var(--disc) 30%,transparent) inset;
 }
-.lci{
-  font-size:24px;margin-bottom:10px;
+.holo-platform.glitching{ animation:disc-glitch-shake .5s steps(2) both; }
+@keyframes disc-glitch-shake{
+  0%,100%{transform:translateX(-50%) skewX(0deg)}
+  20%{transform:translateX(calc(-50% - 5px)) skewX(3deg)}
+  40%{transform:translateX(calc(-50% + 4px)) skewX(-2deg)}
+  60%{transform:translateX(calc(-50% - 3px)) skewX(2deg)}
+  80%{transform:translateX(calc(-50% + 3px)) skewX(-1deg)}
+}
+/* ── gelombang cahaya idle: menyebar dari titik tengah piringan ── */
+.holo-pulse{
+  position:absolute;left:50%;bottom:0;
+  width:150px;height:14px;border-radius:50%;
+  transform:translate(-50%,0) scale(.3);
+  border:1px solid var(--disc);
+  opacity:0;pointer-events:none;
+  animation:holo-pulse-wave 3.2s ease-out infinite;
+}
+.holo-pulse-2{animation-delay:1.06s}
+.holo-pulse-3{animation-delay:2.13s}
+@keyframes holo-pulse-wave{
+  0%{transform:translate(-50%,0) scale(.3);opacity:.85}
+  65%{opacity:.2}
+  100%{transform:translate(-50%,0) scale(2.3);opacity:0}
+}
+/* ── kelip-kelip cahaya kecil di dalam piringan saat idle ── */
+.holo-sparkles{
+  position:absolute;left:50%;bottom:0;transform:translateX(-50%);
+  width:150px;height:14px;pointer-events:none;
+}
+.holo-sparkles span{
+  position:absolute;width:3px;height:3px;border-radius:50%;
+  background:var(--disc);box-shadow:0 0 6px 1px var(--disc);
+  opacity:0;animation:holo-sparkle-twinkle 2.6s ease-in-out infinite;
+}
+.holo-sparkles span:nth-child(1){left:8%; top:60%; animation-delay:.1s}
+.holo-sparkles span:nth-child(2){left:26%;top:15%; animation-delay:.7s}
+.holo-sparkles span:nth-child(3){left:48%;top:70%; animation-delay:1.3s}
+.holo-sparkles span:nth-child(4){left:66%;top:20%; animation-delay:1.8s}
+.holo-sparkles span:nth-child(5){left:86%;top:55%; animation-delay:.35s}
+.holo-sparkles span:nth-child(6){left:40%;top:0%;  animation-delay:2.1s}
+@keyframes holo-sparkle-twinkle{
+  0%,100%{opacity:0;transform:scale(.4)}
+  50%{opacity:1;transform:scale(1.3)}
+}
+/* saat drum reveal-all aktif, sembunyikan pulse/sparkle biar tidak menumpuk dengan efek warna drum */
+.holo-drum-wrap.active ~ .holo-platform .holo-pulse,
+.holo-drum-wrap.active ~ .holo-platform .holo-sparkles,
+.holo-launch-wrap.active ~ .holo-platform .holo-pulse,
+.holo-launch-wrap.active ~ .holo-platform .holo-sparkles{ opacity:0; }
+/* ── ikon kategori idle, melayang di atas piringan ── */
+.holo-display{
+  position:absolute;left:50%;bottom:78px;
+  transform:translate(-50%,0);
+  display:flex;flex-direction:column;align-items:center;gap:6px;
+  max-width:260px;
+  z-index:5;pointer-events:none;
+  animation:holo-float 3.4s ease-in-out infinite;
+}
+@keyframes holo-float{
+  0%,100%{transform:translate(-50%,0)}
+  50%{transform:translate(-50%,-7px)}
+}
+.holo-icon-box{
+  width:56px;height:56px;
   display:flex;align-items:center;justify-content:center;
-  filter: drop-shadow(0 0 4px currentColor);
-  transition: filter .25s;
+  filter:drop-shadow(0 0 10px var(--lc)) drop-shadow(0 0 22px color-mix(in srgb,var(--lc) 60%,transparent));
 }
-.lc:hover .lci{ filter: drop-shadow(0 0 10px currentColor); }
-.lc:active .lci{ animation: lci-spin 0.55s cubic-bezier(.4,0,.2,1) both; }
-.lc.clicked .lci{ animation: lci-spin 0.55s cubic-bezier(.4,0,.2,1) both; }
-.lc.clicked .lcn{ animation: lcn-glitch 0.5s steps(1) both; color:var(--lc); text-shadow:0 0 8px var(--lc),2px 0 #ff003c,-2px 0 #00aaff; }
-.lcn{
-  font-family:'Share Tech Mono',monospace;
-  font-weight:700;font-size:11px;color:var(--lc);
-  margin-bottom:4px;letter-spacing:.5px;
+.holo-icon-box svg{width:46px;height:46px}
+.holo-name{
+  font-family:'Share Tech Mono',monospace;font-weight:700;
+  font-size:14px;letter-spacing:1px;color:var(--lc);
+  text-shadow:0 0 10px var(--lc);
+  white-space:nowrap;
+  max-width:250px;
 }
-.lcc{font-size:10px;color:var(--dim);font-family:'Share Tech Mono',monospace}
-.lc:hover .lcn{color:var(--lc);text-shadow:0 0 8px var(--lc)}
+.holo-meta{font-size:10px;color:var(--dim);font-family:'Share Tech Mono',monospace;letter-spacing:.5px}
+.holo-icon-box.glitching, .holo-name.glitching{ animation:holo-icon-glitch .45s steps(1) both; }
+@keyframes holo-icon-glitch{
+  0%{clip-path:none;transform:translate(0,0);opacity:1;filter:drop-shadow(0 0 10px var(--lc))}
+  8%{clip-path:inset(10% 0 55% 0);transform:translate(-5px,0);opacity:.7}
+  18%{clip-path:inset(55% 0 5% 0);transform:translate(5px,0);opacity:.85}
+  28%{clip-path:inset(30% 0 40% 0);transform:translate(-3px,0)}
+  38%{clip-path:none;transform:translate(2px,0);opacity:.6}
+  50%{clip-path:inset(15% 0 60% 0);transform:translate(-4px,0)}
+  62%{clip-path:none;transform:translate(0,0);opacity:1}
+  100%{clip-path:none;transform:translate(0,0);opacity:1}
+}
+.holo-dots{display:flex;gap:6px;margin-top:16px;flex-wrap:wrap;justify-content:center;max-width:280px}
+.holo-dot{width:5px;height:5px;border-radius:50%;background:var(--bd2);transition:all .25s;cursor:pointer}
+.holo-dot.active{background:var(--lc);box-shadow:0 0 6px var(--lc);width:14px;border-radius:3px}
+/* ── drum horizontal: semua kategori berputar ke samping (searah jarum jam) ── */
+.holo-drum-wrap{
+  position:absolute;left:50%;bottom:132px;
+  transform:translate(-50%,0);
+  width:1px;height:1px;
+  transform-style:preserve-3d;
+  opacity:0;pointer-events:none;
+  z-index:6;
+}
+.holo-drum-wrap.active{opacity:1;pointer-events:auto}
+.holo-drum{
+  position:absolute;top:0;left:0;
+  transform-style:preserve-3d;
+  transform:rotateY(0deg);
+}
+.holo-face{
+  position:absolute;top:0;left:0;
+  width:140px;
+  transform:translate(-50%,-50%);
+  display:flex;flex-direction:column;align-items:center;gap:6px;
+  backface-visibility:hidden;
+  opacity:0;
+  transition:opacity .3s, transform .5s cubic-bezier(.2,.9,.3,1.2);
+}
+.holo-face.risen{ opacity:1; }
+.holo-face .holo-icon-box{width:44px;height:44px}
+.holo-face .holo-icon-box svg{width:36px;height:36px}
+.holo-face .holo-name{font-size:11.5px}
+
+/* ── animasi kedua: icon muncul dari dalam piringan lalu terlempar keluar ── */
+.holo-launch-wrap{
+  position:absolute;left:50%;bottom:20px;
+  transform:translate(-50%,0);
+  width:1px;height:1px;
+  z-index:6;pointer-events:none;
+}
+.holo-launch-icon{
+  position:absolute;left:0;top:0;
+  display:flex;flex-direction:column;align-items:center;gap:6px;
+  width:140px;
+  transform:translate(-50%,-50%) scale(0);
+  opacity:0;
+  animation:holo-launch-fly var(--dur,1700ms) cubic-bezier(.22,.7,.25,1) forwards;
+}
+.holo-launch-icon .holo-icon-box{
+  width:44px;height:44px;display:flex;align-items:center;justify-content:center;
+  filter:drop-shadow(0 0 8px var(--lic)) drop-shadow(0 0 16px var(--lic));
+}
+.holo-launch-icon .holo-icon-box svg{width:36px;height:36px;display:block}
+.holo-launch-icon .holo-name{
+  font-family:'Share Tech Mono',monospace;font-weight:700;
+  font-size:11.5px;letter-spacing:1px;color:var(--lic);
+  text-shadow:0 0 8px var(--lic);white-space:nowrap;
+}
+.holo-launch-icon .holo-meta{font-size:9.5px;color:var(--dim);font-family:'Share Tech Mono',monospace;letter-spacing:.5px}
+@keyframes holo-launch-fly{
+  0%{transform:translate(-50%,-50%) scale(0) rotate(0deg);opacity:0}
+  16%{transform:translate(-50%,-50%) scale(1.05) rotate(calc(var(--rot) * 0.1));opacity:1}
+  100%{transform:translate(calc(-50% + var(--tx)),calc(-50% + var(--ty))) scale(.55) rotate(var(--rot));opacity:0}
+}
 
 /* ── CORNER DECORATIONS ── */
 .corner-tl,.corner-tr,.corner-bl,.corner-br{
@@ -764,7 +933,13 @@ tr:hover td{background:rgba(0,255,65,0.03)}
   #sb.open{left:0;box-shadow:0 0 40px rgba(0,255,65,0.2)}
   #sbh{padding-right:50px}
   .ht{font-size:24px}.hh{padding:28px 16px 20px}
-  .lg{padding:0 14px 36px;grid-template-columns:repeat(auto-fill,minmax(110px,1fr))}
+  .holo-wrap{padding:0 14px 40px}
+  .holo-stage{height:190px}
+  .holo-display{bottom:64px;max-width:230px}
+  .holo-drum-wrap{bottom:112px}
+  .holo-name{font-size:12.5px;max-width:220px}
+  .holo-icon-box{width:46px;height:46px}
+  .holo-icon-box svg{width:38px;height:38px}
   .dt{font-size:20px}
   pre{padding:12px 14px;font-size:11.5px}
 }
@@ -827,7 +1002,7 @@ tr:hover td{background:rgba(0,255,65,0.03)}
       <div id="hp">
         <div class="hh">
           <div class="ht" id="home-title" onclick="triggerGlitch()" style="cursor:pointer">OLPL</div>
-          <div class="ht-sub">[ Orias Library Programming Language ]</div>
+          <div class="ht-sub" id="home-title-sub">[ Orias Library Programming Language ]</div>
           <p class="hd">Dokumentasi lengkap 10+ bahasa pemrograman &amp; desain.<br>Dari sintaks dasar hingga animasi, SVG, dan 3D.</p>
           <div class="status-bar">
             <div class="stat"><div class="stat-dot"></div>SYSTEM ONLINE</div>
@@ -835,7 +1010,30 @@ tr:hover td{background:rgba(0,255,65,0.03)}
             <div class="stat"><div class="stat-dot" style="background:#ffd166;box-shadow:0 0 8px #ffd166"></div>ACCESS GRANTED</div>
           </div>
         </div>
-        <div class="lg" id="hg"></div>
+        <div class="holo-wrap">
+          <div class="holo-stage" id="holoStage">
+            <div class="holo-drum-wrap" id="holoDrumWrap">
+              <div class="holo-drum" id="holoDrum"></div>
+            </div>
+            <div class="holo-launch-wrap" id="holoLaunchWrap"></div>
+            <div class="holo-display" id="holoDisplay">
+              <div class="holo-icon-box" id="holoIconBox"></div>
+              <div class="holo-name" id="holoName"></div>
+              <div class="holo-meta" id="holoMeta"></div>
+            </div>
+            <div class="holo-platform" id="holoPlatform">
+              <div class="holo-pulse holo-pulse-1"></div>
+              <div class="holo-pulse holo-pulse-2"></div>
+              <div class="holo-pulse holo-pulse-3"></div>
+              <div class="holo-sparkles">
+                <span></span><span></span><span></span><span></span><span></span><span></span>
+              </div>
+              <div class="holo-ring"></div>
+              <div class="holo-base"></div>
+            </div>
+          </div>
+          <div class="holo-dots" id="holoDots"></div>
+        </div>
       </div>
       <div id="dv"></div>
     </div>
@@ -981,11 +1179,236 @@ const NAV={
   },
   html:{
     "GUIDES":[
-      {id:"html-csheet",   t:"Cheatsheet",            n:"10"},
-      {id:"html-comm", t:"Comments",              n:"25"},
-      {id:"html-cvalid",   t:"Constraint Validation", n:"30"},
-      {id:"html-ccateg",   t:"Content Categories",    n:"20"},   
-      {id:"html-datetime", t:"Date and Time Format",  n:"10"}
+      {id:"html-g-cheatsheet",   t:"Cheatsheet",                     n:"1"},
+      {id:"html-g-comments",     t:"Comments",                       n:"1"},
+      {id:"html-g-validation",   t:"Constraint Validation",          n:"1"},
+      {id:"html-g-categories",   t:"Content Categories",             n:"1"},
+      {id:"html-g-datetime",     t:"Date and Time Formats",          n:"1"},
+      {id:"html-g-microdata",    t:"Microdata",                      n:"1"},
+      {id:"html-g-microformats", t:"Microformats",                   n:"1"},
+      {id:"html-g-quirks",       t:"Quirks Mode and Standards Mode", n:"1"},
+      {id:"html-g-responsive",   t:"Responsive Images",              n:"1"},
+    ],
+    "ATTRIBUTES":[
+      {id:"html-a-accept",                     t:"accept",                     n:"1"},
+      {id:"html-a-autocomplete",               t:"autocomplete",               n:"1"},
+      {id:"html-a-capture",                    t:"capture",                    n:"1"},
+      {id:"html-a-content",                    t:"content",                    n:"1"},
+      {id:"html-a-crossorigin",                t:"crossorigin",                n:"1"},
+      {id:"html-a-dirname",                    t:"dirname",                    n:"1"},
+      {id:"html-a-disabled",                   t:"disabled",                   n:"1"},
+      {id:"html-a-elementtiming",              t:"elementtiming",              n:"1"},
+      {id:"html-a-fetchpriority",              t:"fetchpriority",              n:"1"},
+      {id:"html-a-for",                        t:"for",                        n:"1"},
+      {id:"html-a-form",                       t:"form",                       n:"1"},
+      {id:"html-a-integrity",                  t:"integrity",                  n:"1"},
+      {id:"html-a-max",                        t:"max",                        n:"1"},
+      {id:"html-a-maxlength",                  t:"maxlength",                  n:"1"},
+      {id:"html-a-min",                        t:"min",                        n:"1"},
+      {id:"html-a-minlength",                  t:"minlength",                  n:"1"},
+      {id:"html-a-multiple",                   t:"multiple",                   n:"1"},
+      {id:"html-a-pattern",                    t:"pattern",                    n:"1"},
+      {id:"html-a-placeholder",                t:"placeholder",                n:"1"},
+      {id:"html-a-readonly",                   t:"readonly",                   n:"1"},
+      {id:"html-a-rel",                        t:"rel",                        n:"1"},
+      {id:"html-a-rel-alternate-stylesheet",   t:"rel.alternate stylesheet",   n:"1"},
+      {id:"html-a-rel-compression-dictionary", t:"rel.compression-dictionary", n:"1"},
+      {id:"html-a-rel-dns-prefetch",           t:"rel.dns-prefetch",           n:"1"},
+      {id:"html-a-rel-manifest",               t:"rel.manifest",               n:"1"},
+      {id:"html-a-rel-me",                     t:"rel.me",                     n:"1"},
+      {id:"html-a-rel-modulepreload",          t:"rel.modulepreload",          n:"1"},
+      {id:"html-a-rel-noopener",               t:"rel.noopener",               n:"1"},
+      {id:"html-a-rel-noreferrer",             t:"rel.noreferrer",             n:"1"},
+      {id:"html-a-rel-preconnect",             t:"rel.preconnect",             n:"1"},
+      {id:"html-a-rel-prefetch",               t:"rel.prefetch",               n:"1"},
+      {id:"html-a-rel-preload",                t:"rel.preload",                n:"1"},
+      {id:"html-a-required",                   t:"required",                   n:"1"},
+      {id:"html-a-size",                       t:"size",                       n:"1"},
+      {id:"html-a-step",                       t:"step",                       n:"1"},
+      {id:"html-a-download",                   t:"download",                   n:"1"},
+    ],
+    "GLOBAL ATTRIBUTES":[
+      {id:"html-ga-accesskey", t:"accesskey", n:"1"},
+      {id:"html-ga-autocapitalize", t:"autocapitalize", n:"1"},
+      {id:"html-ga-autocorrect", t:"autocorrect", n:"1"},
+      {id:"html-ga-autofocus", t:"autofocus", n:"1"},
+      {id:"html-ga-class", t:"class", n:"1"},
+      {id:"html-ga-contenteditable", t:"contenteditable", n:"1"},
+      {id:"html-ga-data", t:"data-*", n:"1"},
+      {id:"html-ga-dir", t:"dir", n:"1"},
+      {id:"html-ga-draggable", t:"draggable", n:"1"},
+      {id:"html-ga-enterkeyhint", t:"enterkeyhint", n:"1"},
+      {id:"html-ga-exportparts", t:"exportparts", n:"1"},
+      {id:"html-ga-hidden", t:"hidden", n:"1"},
+      {id:"html-ga-id", t:"id", n:"1"},
+      {id:"html-ga-inert", t:"inert", n:"1"},
+      {id:"html-ga-inputmode", t:"inputmode", n:"1"},
+      {id:"html-ga-is", t:"is", n:"1"},
+      {id:"html-ga-itemid", t:"itemid", n:"1"},
+      {id:"html-ga-itemprop", t:"itemprop", n:"1"},
+      {id:"html-ga-itemref", t:"itemref", n:"1"},
+      {id:"html-ga-itemscope", t:"itemscope", n:"1"},
+      {id:"html-ga-itemtype", t:"itemtype", n:"1"},
+      {id:"html-ga-lang", t:"lang", n:"1"},
+      {id:"html-ga-nonce", t:"nonce", n:"1"},
+      {id:"html-ga-part", t:"part", n:"1"},
+      {id:"html-ga-popover", t:"popover", n:"1"},
+      {id:"html-ga-slot", t:"slot", n:"1"},
+      {id:"html-ga-spellcheck", t:"spellcheck", n:"1"},
+      {id:"html-ga-style", t:"style", n:"1"},
+      {id:"html-ga-tabindex", t:"tabindex", n:"1"},
+      {id:"html-ga-title", t:"title", n:"1"},
+      {id:"html-ga-translate", t:"translate", n:"1"},
+      {id:"html-ga-writingsuggestions", t:"writingsuggestions", n:"1"},
+      {id:"html-ga-virtualkeyboardpolicy", t:"virtualkeyboardpolicy", n:"1"},
+      {id:"html-ga-role", t:"role", n:"1"},
+      {id:"html-ga-aria", t:"aria-*", n:"1"},
+    ],
+    "ELEMENTS":[
+      {id:"html-e-a", t:"&lt;a&gt;", n:"1"},
+      {id:"html-e-abbr", t:"&lt;abbr&gt;", n:"1"},
+      {id:"html-e-acronym", t:"&lt;acronym&gt;", n:"1"},
+      {id:"html-e-address", t:"&lt;address&gt;", n:"1"},
+      {id:"html-e-applet", t:"&lt;applet&gt;", n:"1"},
+      {id:"html-e-area", t:"&lt;area&gt;", n:"1"},
+      {id:"html-e-article", t:"&lt;article&gt;", n:"1"},
+      {id:"html-e-aside", t:"&lt;aside&gt;", n:"1"},
+      {id:"html-e-audio", t:"&lt;audio&gt;", n:"1"},
+      {id:"html-e-b", t:"&lt;b&gt;", n:"1"},
+      {id:"html-e-base", t:"&lt;base&gt;", n:"1"},
+      {id:"html-e-basefont", t:"&lt;basefont&gt;", n:"1"},
+      {id:"html-e-bdi", t:"&lt;bdi&gt;", n:"1"},
+      {id:"html-e-bdo", t:"&lt;bdo&gt;", n:"1"},
+      {id:"html-e-bgsound", t:"&lt;bgsound&gt;", n:"1"},
+      {id:"html-e-big", t:"&lt;big&gt;", n:"1"},
+      {id:"html-e-blink", t:"&lt;blink&gt;", n:"1"},
+      {id:"html-e-blockquote", t:"&lt;blockquote&gt;", n:"1"},
+      {id:"html-e-body", t:"&lt;body&gt;", n:"1"},
+      {id:"html-e-br", t:"&lt;br&gt;", n:"1"},
+      {id:"html-e-button", t:"&lt;button&gt;", n:"1"},
+      {id:"html-e-canvas", t:"&lt;canvas&gt;", n:"1"},
+      {id:"html-e-caption", t:"&lt;caption&gt;", n:"1"},
+      {id:"html-e-center", t:"&lt;center&gt;", n:"1"},
+      {id:"html-e-cite", t:"&lt;cite&gt;", n:"1"},
+      {id:"html-e-code", t:"&lt;code&gt;", n:"1"},
+      {id:"html-e-col", t:"&lt;col&gt;", n:"1"},
+      {id:"html-e-colgroup", t:"&lt;colgroup&gt;", n:"1"},
+      {id:"html-e-command", t:"&lt;command&gt;", n:"1"},
+      {id:"html-e-content", t:"&lt;content&gt;", n:"1"},
+      {id:"html-e-data", t:"&lt;data&gt;", n:"1"},
+      {id:"html-e-datalist", t:"&lt;datalist&gt;", n:"1"},
+      {id:"html-e-dd", t:"&lt;dd&gt;", n:"1"},
+      {id:"html-e-del", t:"&lt;del&gt;", n:"1"},
+      {id:"html-e-details", t:"&lt;details&gt;", n:"1"},
+      {id:"html-e-dfn", t:"&lt;dfn&gt;", n:"1"},
+      {id:"html-e-dialog", t:"&lt;dialog&gt;", n:"1"},
+      {id:"html-e-dir", t:"&lt;dir&gt;", n:"1"},
+      {id:"html-e-div", t:"&lt;div&gt;", n:"1"},
+      {id:"html-e-dl", t:"&lt;dl&gt;", n:"1"},
+      {id:"html-e-dt", t:"&lt;dt&gt;", n:"1"},
+      {id:"html-e-element", t:"&lt;element&gt;", n:"1"},
+      {id:"html-e-em", t:"&lt;em&gt;", n:"1"},
+      {id:"html-e-embed", t:"&lt;embed&gt;", n:"1"},
+      {id:"html-e-fieldset", t:"&lt;fieldset&gt;", n:"1"},
+      {id:"html-e-figcaption", t:"&lt;figcaption&gt;", n:"1"},
+      {id:"html-e-figure", t:"&lt;figure&gt;", n:"1"},
+      {id:"html-e-font", t:"&lt;font&gt;", n:"1"},
+      {id:"html-e-footer", t:"&lt;footer&gt;", n:"1"},
+      {id:"html-e-form", t:"&lt;form&gt;", n:"1"},
+      {id:"html-e-frame", t:"&lt;frame&gt;", n:"1"},
+      {id:"html-e-frameset", t:"&lt;frameset&gt;", n:"1"},
+      {id:"html-e-h1", t:"&lt;h1&gt;", n:"1"},
+      {id:"html-e-h2", t:"&lt;h2&gt;", n:"1"},
+      {id:"html-e-h3", t:"&lt;h3&gt;", n:"1"},
+      {id:"html-e-h4", t:"&lt;h4&gt;", n:"1"},
+      {id:"html-e-h5", t:"&lt;h5&gt;", n:"1"},
+      {id:"html-e-h6", t:"&lt;h6&gt;", n:"1"},
+      {id:"html-e-head", t:"&lt;head&gt;", n:"1"},
+      {id:"html-e-header", t:"&lt;header&gt;", n:"1"},
+      {id:"html-e-hgroup", t:"&lt;hgroup&gt;", n:"1"},
+      {id:"html-e-hr", t:"&lt;hr&gt;", n:"1"},
+      {id:"html-e-html", t:"&lt;html&gt;", n:"1"},
+      {id:"html-e-i", t:"&lt;i&gt;", n:"1"},
+      {id:"html-e-iframe", t:"&lt;iframe&gt;", n:"1"},
+      {id:"html-e-image", t:"&lt;image&gt;", n:"1"},
+      {id:"html-e-img", t:"&lt;img&gt;", n:"1"},
+      {id:"html-e-input", t:"&lt;input&gt;", n:"1"},
+      {id:"html-e-ins", t:"&lt;ins&gt;", n:"1"},
+      {id:"html-e-isindex", t:"&lt;isindex&gt;", n:"1"},
+      {id:"html-e-kbd", t:"&lt;kbd&gt;", n:"1"},
+      {id:"html-e-keygen", t:"&lt;keygen&gt;", n:"1"},
+      {id:"html-e-label", t:"&lt;label&gt;", n:"1"},
+      {id:"html-e-legend", t:"&lt;legend&gt;", n:"1"},
+      {id:"html-e-li", t:"&lt;li&gt;", n:"1"},
+      {id:"html-e-link", t:"&lt;link&gt;", n:"1"},
+      {id:"html-e-listing", t:"&lt;listing&gt;", n:"1"},
+      {id:"html-e-main", t:"&lt;main&gt;", n:"1"},
+      {id:"html-e-map", t:"&lt;map&gt;", n:"1"},
+      {id:"html-e-mark", t:"&lt;mark&gt;", n:"1"},
+      {id:"html-e-marquee", t:"&lt;marquee&gt;", n:"1"},
+      {id:"html-e-math", t:"&lt;math&gt;", n:"1"},
+      {id:"html-e-menu", t:"&lt;menu&gt;", n:"1"},
+      {id:"html-e-menuitem", t:"&lt;menuitem&gt;", n:"1"},
+      {id:"html-e-meta", t:"&lt;meta&gt;", n:"1"},
+      {id:"html-e-meter", t:"&lt;meter&gt;", n:"1"},
+      {id:"html-e-multicol", t:"&lt;multicol&gt;", n:"1"},
+      {id:"html-e-nav", t:"&lt;nav&gt;", n:"1"},
+      {id:"html-e-nextid", t:"&lt;nextid&gt;", n:"1"},
+      {id:"html-e-nobr", t:"&lt;nobr&gt;", n:"1"},
+      {id:"html-e-noembed", t:"&lt;noembed&gt;", n:"1"},
+      {id:"html-e-noframes", t:"&lt;noframes&gt;", n:"1"},
+      {id:"html-e-noscript", t:"&lt;noscript&gt;", n:"1"},
+      {id:"html-e-object", t:"&lt;object&gt;", n:"1"},
+      {id:"html-e-ol", t:"&lt;ol&gt;", n:"1"},
+      {id:"html-e-optgroup", t:"&lt;optgroup&gt;", n:"1"},
+      {id:"html-e-option", t:"&lt;option&gt;", n:"1"},
+      {id:"html-e-output", t:"&lt;output&gt;", n:"1"},
+      {id:"html-e-p", t:"&lt;p&gt;", n:"1"},
+      {id:"html-e-picture", t:"&lt;picture&gt;", n:"1"},
+      {id:"html-e-plaintext", t:"&lt;plaintext&gt;", n:"1"},
+      {id:"html-e-pre", t:"&lt;pre&gt;", n:"1"},
+      {id:"html-e-progress", t:"&lt;progress&gt;", n:"1"},
+      {id:"html-e-q", t:"&lt;q&gt;", n:"1"},
+      {id:"html-e-rb", t:"&lt;rb&gt;", n:"1"},
+      {id:"html-e-rp", t:"&lt;rp&gt;", n:"1"},
+      {id:"html-e-rt", t:"&lt;rt&gt;", n:"1"},
+      {id:"html-e-rtc", t:"&lt;rtc&gt;", n:"1"},
+      {id:"html-e-ruby", t:"&lt;ruby&gt;", n:"1"},
+      {id:"html-e-s", t:"&lt;s&gt;", n:"1"},
+      {id:"html-e-samp", t:"&lt;samp&gt;", n:"1"},
+      {id:"html-e-script", t:"&lt;script&gt;", n:"1"},
+      {id:"html-e-search", t:"&lt;search&gt;", n:"1"},
+      {id:"html-e-section", t:"&lt;section&gt;", n:"1"},
+      {id:"html-e-select", t:"&lt;select&gt;", n:"1"},
+      {id:"html-e-shadow", t:"&lt;shadow&gt;", n:"1"},
+      {id:"html-e-slot", t:"&lt;slot&gt;", n:"1"},
+      {id:"html-e-small", t:"&lt;small&gt;", n:"1"},
+      {id:"html-e-source", t:"&lt;source&gt;", n:"1"},
+      {id:"html-e-span", t:"&lt;span&gt;", n:"1"},
+      {id:"html-e-strike", t:"&lt;strike&gt;", n:"1"},
+      {id:"html-e-strong", t:"&lt;strong&gt;", n:"1"},
+      {id:"html-e-style", t:"&lt;style&gt;", n:"1"},
+      {id:"html-e-sub", t:"&lt;sub&gt;", n:"1"},
+      {id:"html-e-summary", t:"&lt;summary&gt;", n:"1"},
+      {id:"html-e-sup", t:"&lt;sup&gt;", n:"1"},
+      {id:"html-e-svg", t:"&lt;svg&gt;", n:"1"},
+      {id:"html-e-table", t:"&lt;table&gt;", n:"1"},
+      {id:"html-e-tbody", t:"&lt;tbody&gt;", n:"1"},
+      {id:"html-e-td", t:"&lt;td&gt;", n:"1"},
+      {id:"html-e-template", t:"&lt;template&gt;", n:"1"},
+      {id:"html-e-textarea", t:"&lt;textarea&gt;", n:"1"},
+      {id:"html-e-tfoot", t:"&lt;tfoot&gt;", n:"1"},
+      {id:"html-e-th", t:"&lt;th&gt;", n:"1"},
+      {id:"html-e-thead", t:"&lt;thead&gt;", n:"1"},
+      {id:"html-e-time", t:"&lt;time&gt;", n:"1"},
+      {id:"html-e-title", t:"&lt;title&gt;", n:"1"},
+      {id:"html-e-tr", t:"&lt;tr&gt;", n:"1"},
+      {id:"html-e-track", t:"&lt;track&gt;", n:"1"},
+      {id:"html-e-u", t:"&lt;u&gt;", n:"1"},
+      {id:"html-e-ul", t:"&lt;ul&gt;", n:"1"},
+      {id:"html-e-var", t:"&lt;var&gt;", n:"1"},
+      {id:"html-e-video", t:"&lt;video&gt;", n:"1"},
+      {id:"html-e-wbr", t:"&lt;wbr&gt;", n:"1"},
     ],
     "STRUKTUR":[
       {id:"html-base",t:"Struktur Dasar & DOCTYPE",     n:"10"},
@@ -1104,6 +1527,24 @@ function buildTabs() {
   });
 }
 
+// Menyimpan status buka/tutup tiap section per bahasa, supaya tidak reset saat navigasi.
+const navSecState = {};
+
+function navSecKey(lang, sec) { return lang + '::' + sec; }
+
+function isNavSecCollapsed(lang, sec, items) {
+  const key = navSecKey(lang, sec);
+  if (navSecState[key] === undefined) {
+    // Default: section kecil (≤12 item) langsung terbuka, section besar (referensi) mulai tertutup.
+    navSecState[key] = items.length > 12;
+  }
+  // Auto-buka section yang sedang berisi dokumen aktif.
+  if (items.some(it => it.id === curState.doc)) {
+    navSecState[key] = false;
+  }
+  return navSecState[key];
+}
+
 function buildNav(lang, animate) {
   const d = LANGS[lang];
   const nl = document.getElementById('nl');
@@ -1111,25 +1552,52 @@ function buildNav(lang, animate) {
   const secs = NAV[lang] || {};
   let rowIndex = 0;
   for (const [sec, items] of Object.entries(secs)) {
-    const s = document.createElement('div');
-    s.innerHTML = '<div class="ns">' + sec + '</div>';
+    const key = navSecKey(lang, sec);
+    const collapsed = isNavSecCollapsed(lang, sec, items);
+
+    const wrap = document.createElement('div');
+    wrap.className = 'nsec';
+
+    const header = document.createElement('div');
+    header.className = 'ns' + (collapsed ? ' collapsed' : ' open');
+    header.innerHTML =
+      '<span class="ns-caret">' + (collapsed ? '&#9656;' : '&#9662;') + '</span>' +
+      '<span class="ns-lbl">' + sec + '</span>' +
+      '<span class="ns-count">' + items.length + '</span>';
+    header.onclick = () => {
+      navSecState[key] = !navSecState[key];
+      buildNav(curState.lang, false);
+    };
+    wrap.appendChild(header);
+
+    // Body selalu di-render di DOM (walau tersembunyi via CSS) supaya pencarian
+    // tetap bisa menemukan item di dalam section yang sedang tertutup.
+    const body = document.createElement('div');
+    body.className = 'nsec-body' + (collapsed ? ' collapsed' : '');
     items.forEach(item => {
       const el = document.createElement('div');
       const isActive = item.id === curState.doc;
       el.className = 'ni' + (isActive ? ' active' : '') + (animate ? ' slide-in' : '');
       if (animate) el.style.animationDelay = (rowIndex * 38) + 'ms';
+      const showBadge = item.n && item.n !== '1';
       el.innerHTML =
         '<div class="nico" style="color:'+d.color+';border-color:'+d.color+'44">' +
           lang.slice(0,2).toUpperCase() +
         '</div>' +
         '<span class="nlbl">' + item.t + '</span>' +
-        '<span class="ncnt">' + item.n + '</span>';
+        (showBadge ? '<span class="ncnt">' + item.n + '</span>' : '');
       el.onclick = () => openDoc(item.id);
-      s.appendChild(el);
+      body.appendChild(el);
       rowIndex++;
     });
-    nl.appendChild(s);
+    wrap.appendChild(body);
+
+    nl.appendChild(wrap);
   }
+
+  // Kalau ada query pencarian aktif, terapkan ulang filternya setelah render.
+  const searchEl = document.getElementById('search');
+  if (searchEl && searchEl.value.trim()) filterNav(searchEl.value);
 }
 
 function switchLang(lang) {
@@ -1194,10 +1662,25 @@ function showPlaceholder(id) {
 
 function filterNav(q) {
   q = q.toLowerCase().replace('//', '').trim();
-  document.querySelectorAll('.ni').forEach(el => {
-    const lbl = el.querySelector('.nlbl');
-    if (!lbl) return;
-    el.style.display = lbl.textContent.toLowerCase().includes(q) ? '' : 'none';
+
+  if (!q) {
+    // Kosongkan pencarian → render ulang nav sesuai status buka/tutup tersimpan.
+    buildNav(curState.lang, false);
+    return;
+  }
+
+  document.querySelectorAll('#nl .nsec').forEach(secEl => {
+    const body = secEl.querySelector('.nsec-body');
+    const items = secEl.querySelectorAll('.ni');
+    let anyMatch = false;
+    items.forEach(el => {
+      const lbl = el.querySelector('.nlbl');
+      const match = !!(lbl && lbl.textContent.toLowerCase().includes(q));
+      el.style.display = match ? '' : 'none';
+      if (match) anyMatch = true;
+    });
+    secEl.style.display = anyMatch ? '' : 'none';
+    if (body) body.classList.toggle('collapsed', !anyMatch);
   });
 }
 
@@ -1221,22 +1704,335 @@ function closeSB() {
   document.body.style.overflow = '';
 }
 
-function buildHomeGrid() {
-  const g = document.getElementById('hg');
-  g.innerHTML = '';
-  Object.entries(LANGS).forEach(([k, d]) => {
-    const total  = Object.values(NAV[k] || {}).flat().length;
-    const filled = Object.values(NAV[k] || {}).flat().filter(x => D[x.id]).length;
-    const el = document.createElement('div');
-    el.className = 'lc';
-    el.style.setProperty('--lc', d.color);
-    el.innerHTML =
-      '<div class="lci">' + d.icon + '</div>' +
-      '<div class="lcn">' + d.label.toUpperCase() + '</div>' +
-      '<div class="lcc">' + filled + '/' + total + ' modules</div>';
-    el.onclick = () => showLangPage(k);
-    g.appendChild(el);
+// ═══════════════════════════════════════
+// HOLOGRAM HOME PROJECTOR
+// Menampilkan kategori bahasa satu per satu
+// di atas piringan hologram — auto-cycle, swipe,
+// tap untuk reveal semua (drum berputar horizontal
+// searah jarum jam), dan double-tap untuk masuk
+// ke halaman kategori.
+// ═══════════════════════════════════════
+const holoKeys = Object.keys(LANGS);
+let holoIndex = 0;
+let holoAutoTimer = null;
+let holoDiscTimer = null;
+let holoBusy = false;      // true selagi animasi reveal/drum berjalan
+let holoClickTimer = null; // pembeda single vs double tap
+
+function holoModuleInfo(k) {
+  const total  = Object.values(NAV[k] || {}).flat().length;
+  const filled = Object.values(NAV[k] || {}).flat().filter(x => D[x.id]).length;
+  return { total, filled };
+}
+
+function glitchEl(el) {
+  el.classList.remove('glitching');
+  void el.offsetWidth;
+  el.classList.add('glitching');
+  el.addEventListener('animationend', () => el.classList.remove('glitching'), {once:true});
+}
+
+// glitch pada piringan (bukan sinar — sinar sudah dihapus), dipicu saat interaksi
+function glitchDisc() {
+  glitchEl(document.getElementById('holoPlatform'));
+}
+
+// piringan berganti-ganti warna dengan cepat (kumpulan warna semua kategori)
+// hanya selama drum berputar bersamaan; di luar itu piringan tetap hijau.
+function cycleDiscColors(durationMs) {
+  const stage = document.getElementById('holoStage');
+  clearInterval(holoDiscTimer);
+  let i = 0;
+  holoDiscTimer = setInterval(() => {
+    const k = holoKeys[i % holoKeys.length];
+    stage.style.setProperty('--disc', LANGS[k].color);
+    i++;
+  }, 90);
+  setTimeout(() => {
+    clearInterval(holoDiscTimer);
+    stage.style.removeProperty('--disc'); // kembali hijau (default)
+  }, durationMs);
+}
+
+function renderHoloDots() {
+  const dots = document.getElementById('holoDots');
+  dots.innerHTML = '';
+  holoKeys.forEach((k, i) => {
+    const dot = document.createElement('div');
+    dot.className = 'holo-dot' + (i === holoIndex ? ' active' : '');
+    dot.onclick = (e) => { e.stopPropagation(); if(holoBusy) return; goToHoloIndex(i, true); resetHoloAuto(); };
+    dots.appendChild(dot);
   });
+}
+
+function renderHoloDisplay(k, doGlitch) {
+  const d = LANGS[k];
+  const stage   = document.getElementById('holoStage');
+  const iconBox = document.getElementById('holoIconBox');
+  const nameEl  = document.getElementById('holoName');
+  const metaEl  = document.getElementById('holoMeta');
+  const { total, filled } = holoModuleInfo(k);
+
+  stage.style.setProperty('--lc', d.color);
+  iconBox.innerHTML = d.icon;
+  nameEl.textContent = d.label.toUpperCase();
+  metaEl.textContent = filled + '/' + total + ' modules';
+
+  if (doGlitch) { glitchEl(iconBox); glitchEl(nameEl); }
+  renderHoloDots();
+}
+
+// userTriggered=true artinya dipicu user (swipe/tap/dot) -> tetap hanya ikon+nama yang ngeglitch,
+// piringan TIDAK ikut glitch saat pindah kategori biasa (hanya glitch saat reveal-all/drum berputar).
+// userTriggered=false artinya auto-cycle -> hanya ikon yang ngeglitch
+function goToHoloIndex(i, userTriggered) {
+  holoIndex = ((i % holoKeys.length) + holoKeys.length) % holoKeys.length;
+  renderHoloDisplay(holoKeys[holoIndex], true);
+}
+
+function resetHoloAuto() {
+  if (holoAutoTimer) clearInterval(holoAutoTimer);
+  holoAutoTimer = setInterval(() => {
+    if (holoBusy) return;
+    goToHoloIndex(holoIndex + 1, false);
+  }, 3200);
+}
+
+// perbaikan visual: karena drum diputar dengan rotateY+translateZ di dalam
+// elemen yang punya perspective, wajarnya sisi drum yang lagi "di belakang"
+// akan terlihat turun mendekati titik tengah stage (mendekati piringan) kalau
+// perspective-origin default (tengah stage) tidak segaris dengan posisi drum.
+// Di sini kita samakan perspective-origin vertikal dengan posisi asli drum-wrap,
+// jadi seluruh wajah drum tetap sejajar/di atas piringan sepanjang putaran,
+// di semua ukuran layar (desktop/mobile) tanpa perlu media-query terpisah.
+function fixHoloPerspectiveOrigin() {
+  const stage = document.getElementById('holoStage');
+  const wrap  = document.getElementById('holoDrumWrap');
+  if (!stage || !wrap) return;
+  const sRect = stage.getBoundingClientRect();
+  const wRect = wrap.getBoundingClientRect();
+  if (!sRect.height) return;
+  const originY = ((wRect.top - sRect.top) / sRect.height) * 100;
+  stage.style.perspectiveOrigin = `50% ${originY}%`;
+}
+window.addEventListener('resize', fixHoloPerspectiveOrigin);
+
+// bangun cincin horizontal berisi semua kategori (untuk animasi reveal-all)
+function buildHoloDrum() {
+  const drum = document.getElementById('holoDrum');
+  drum.innerHTML = '';
+  const n = holoKeys.length;
+  const step = 360 / n;
+  const radius = Math.max(120, n * 15);
+  holoKeys.forEach((k, i) => {
+    const d = LANGS[k];
+    const { total, filled } = holoModuleInfo(k);
+    const face = document.createElement('div');
+    face.className = 'holo-face';
+    face.dataset.baseTransform = `translate(-50%,-50%) rotateY(${i * step}deg) translateZ(${radius}px)`;
+    face.style.transform = face.dataset.baseTransform + ' translateY(50px)';
+    face.innerHTML =
+      '<div class="holo-icon-box">' + d.icon + '</div>' +
+      '<div class="holo-name" style="color:' + d.color + ';text-shadow:0 0 8px ' + d.color + '">' + d.label.toUpperCase() + '</div>' +
+      '<div class="holo-meta">' + filled + '/' + total + ' modules</div>';
+    face.onclick = (e) => {
+      e.stopPropagation();
+      if (holoBusy) return;
+      goToHoloIndex(i, true);
+      resetHoloAuto();
+      showLangPage(k);
+    };
+    drum.appendChild(face);
+  });
+}
+
+function triggerHoloReveal() {
+  if (holoBusy) return;
+  holoBusy = true;
+  clearInterval(holoAutoTimer);
+  glitchDisc();
+
+  const wrap    = document.getElementById('holoDrumWrap');
+  const drum    = document.getElementById('holoDrum');
+  const display = document.getElementById('holoDisplay');
+
+  fixHoloPerspectiveOrigin();
+  buildHoloDrum();
+  display.style.transition = 'opacity .25s';
+  display.style.opacity = '0';
+  drum.style.transition = 'none';
+  drum.style.transform = 'rotateY(0deg)';
+  void drum.offsetWidth;
+  wrap.classList.add('active');
+
+  const faces = Array.from(drum.children);
+  const n = faces.length;
+
+  // 1) muncul satu per satu dari bawah
+  faces.forEach((f, i) => {
+    setTimeout(() => {
+      f.classList.add('risen');
+      f.style.transform = f.dataset.baseTransform;
+    }, i * 90);
+  });
+
+  // 2) semua sudah muncul -> berputar ke samping searah jarum jam,
+  //    piringan ikut berganti-ganti warna dengan cepat selama berputar
+  const spinDelay = n * 90 + 350;
+  const spinDur = Math.max(1800, n * 420);
+  setTimeout(() => {
+    glitchDisc();
+    cycleDiscColors(spinDur);
+    drum.style.transition = `transform ${spinDur}ms cubic-bezier(.65,.05,.35,1)`;
+    drum.style.transform = 'rotateY(360deg)';
+  }, spinDelay);
+
+  // 3) kembali smooth ke tampilan awal, piringan kembali hijau
+  const totalDur = spinDelay + spinDur + 450;
+  setTimeout(() => {
+    glitchDisc();
+    wrap.classList.remove('active');
+    drum.style.transition = 'none';
+    drum.style.transform = 'rotateY(0deg)';
+    faces.forEach(f => f.classList.remove('risen'));
+    display.style.opacity = '1';
+    renderHoloDisplay(holoKeys[holoIndex], true);
+    holoBusy = false;
+    resetHoloAuto();
+  }, totalDur);
+}
+
+function handleHoloTap() {
+  if (holoClickTimer) {
+    clearTimeout(holoClickTimer);
+    holoClickTimer = null;
+    if (!holoBusy) showLangPage(holoKeys[holoIndex]);
+    return;
+  }
+  holoClickTimer = setTimeout(() => {
+    holoClickTimer = null;
+    triggerHoloNextAnim();
+  }, 280);
+}
+
+// klik pertama -> animasi 1 (drum berputar/reveal-all),
+// klik berikutnya -> animasi 2 (icon terlempar keluar dari piringan), lalu bergantian seterusnya
+let holoAnimToggle = false;
+function triggerHoloNextAnim() {
+  if (holoAnimToggle) triggerHoloLaunch();
+  else triggerHoloReveal();
+  holoAnimToggle = !holoAnimToggle;
+}
+
+// animasi 2: tiap icon kategori muncul dari titik tengah piringan lalu
+// "terlempar" keluar ke arah acak sambil memudar & berputar, dan piringan
+// ikut berganti warna sesuai icon yang baru saja keluar; selesai -> hijau lagi.
+function triggerHoloLaunch() {
+  if (holoBusy) return;
+  holoBusy = true;
+  clearInterval(holoAutoTimer);
+  glitchDisc();
+
+  const stage   = document.getElementById('holoStage');
+  const wrap    = document.getElementById('holoLaunchWrap');
+  const display = document.getElementById('holoDisplay');
+
+  wrap.innerHTML = '';
+  wrap.classList.add('active');
+  display.style.transition = 'opacity .25s';
+  display.style.opacity = '0';
+
+  const n        = holoKeys.length;
+  const perStep  = 260;   // jeda antar icon "muncul lalu terlempar" (lebih santai)
+  const flyDur   = 1700;  // durasi satu blok terbang sampai hilang (lebih lama)
+
+  holoKeys.forEach((k, i) => {
+    setTimeout(() => {
+      const d = LANGS[k];
+      const { total, filled } = holoModuleInfo(k);
+      const el = document.createElement('div');
+      el.className = 'holo-launch-icon';
+      el.innerHTML =
+        '<div class="holo-icon-box">' + d.icon + '</div>' +
+        '<div class="holo-name">' + d.label.toUpperCase() + '</div>' +
+        '<div class="holo-meta">' + filled + '/' + total + ' modules</div>';
+
+      // arah lemparan acak, dibiaskan ke busur atas & jarak lebih jauh/tinggi
+      // biar terasa melompat keluar dari piringan, bukan tenggelam ke bawah
+      const angleDeg = 200 + Math.random() * 140; // 200deg..340deg (busur atas)
+      const rad  = angleDeg * Math.PI / 180;
+      const dist = 150 + Math.random() * 90;
+      const tx   = Math.cos(rad) * dist;
+      const ty   = Math.sin(rad) * dist * 1.3 - 40; // lebih ke atas
+      const rot  = (Math.random() * 140 - 70).toFixed(0) + 'deg';
+
+      el.style.setProperty('--lic', d.color);
+      el.style.setProperty('--tx', tx.toFixed(1) + 'px');
+      el.style.setProperty('--ty', ty.toFixed(1) + 'px');
+      el.style.setProperty('--rot', rot);
+      el.style.setProperty('--dur', flyDur + 'ms');
+
+      wrap.appendChild(el);
+      el.addEventListener('animationend', () => el.remove(), { once: true });
+
+      // piringan ikut berganti warna sesuai icon yang baru saja keluar
+      stage.style.setProperty('--disc', d.color);
+      glitchDisc();
+    }, i * perStep);
+  });
+
+  const totalDur = (n - 1) * perStep + flyDur + 300;
+  setTimeout(() => {
+    stage.style.removeProperty('--disc'); // kembali hijau
+    glitchDisc();
+    wrap.classList.remove('active');
+    display.style.opacity = '1';
+    renderHoloDisplay(holoKeys[holoIndex], true);
+    holoBusy = false;
+    resetHoloAuto();
+  }, totalDur);
+}
+
+function initHoloInteraction() {
+  const stage = document.getElementById('holoStage');
+  if (stage.dataset.bound) return;
+  stage.dataset.bound = '1';
+
+  let startX = 0, startY = 0, dragging = false, moved = false;
+
+  stage.addEventListener('pointerdown', (e) => {
+    if (e.target.closest('.holo-face')) { dragging = false; return; }
+    dragging = true; moved = false;
+    startX = e.clientX; startY = e.clientY;
+  });
+  stage.addEventListener('pointermove', (e) => {
+    if (!dragging) return;
+    if (Math.abs(e.clientX - startX) > 8 || Math.abs(e.clientY - startY) > 8) moved = true;
+  });
+  stage.addEventListener('pointerup', (e) => {
+    if (!dragging) return;
+    dragging = false;
+    if (e.target.closest('.holo-face')) return;
+    const dx = e.clientX - startX;
+    if (Math.abs(dx) > 40) {
+      if (holoBusy) return;
+      goToHoloIndex(holoIndex + (dx < 0 ? 1 : -1), true);
+      resetHoloAuto();
+      return;
+    }
+    if (!moved) handleHoloTap();
+  });
+  stage.addEventListener('pointercancel', () => { dragging = false; });
+}
+
+function buildHomeGrid() {
+  if (!holoKeys.length) return;
+  const startAt = holoKeys.indexOf(curState.lang);
+  holoIndex = startAt >= 0 ? startAt : 0;
+  renderHoloDisplay(holoKeys[holoIndex], false);
+  initHoloInteraction();
+  fixHoloPerspectiveOrigin();
+  resetHoloAuto();
 }
 
 // ── PAGE GLITCH HELPER ──
@@ -1290,15 +2086,52 @@ function goHome() {
   closeSB();
 }
 
-function triggerGlitch() {
-  const el = document.getElementById('home-title');
-  el.classList.remove('glitch-burst');
-  void el.offsetWidth;
-  el.classList.add('glitch-burst');
-  el.addEventListener('animationend', () => el.classList.remove('glitch-burst'), {once:true});
+// ── HOME TITLE CYCLE: OLPL <-> WELCOME, dengan transisi glitch ──
+const HOME_TITLE_STATES = [
+  { title: 'OLPL',    sub: '[ Orias Library Programming Language ]' },
+  { title: 'WELCOME', sub: '[ Selamat Datang ]' }
+];
+let homeTitleIdx = 0;
+let homeTitleTimer = null;
+
+function playHomeTitleGlitch() {
+  const titleEl = document.getElementById('home-title');
+  const subEl = document.getElementById('home-title-sub');
+  if (!titleEl || !subEl) return;
+
+  [titleEl, subEl].forEach(el => {
+    el.classList.remove('glitch-burst');
+    void el.offsetWidth;
+    el.classList.add('glitch-burst');
+  });
+
+  // ganti teks di tengah animasi glitch, biar transisinya "ketutup" efek glitch
+  setTimeout(() => {
+    homeTitleIdx = (homeTitleIdx + 1) % HOME_TITLE_STATES.length;
+    const state = HOME_TITLE_STATES[homeTitleIdx];
+    titleEl.textContent = state.title;
+    subEl.textContent = state.sub;
+  }, 260);
+
+  setTimeout(() => {
+    titleEl.classList.remove('glitch-burst');
+    subEl.classList.remove('glitch-burst');
+  }, 650);
 }
 
-const LANG_DESC = {"js": ("JavaScript", "Bahasa scripting yang menghidupkan web modern. Dari manipulasi DOM hingga async, functional programming, dan ekosistem yang tak terbatas.", ["Dynamic Typing", "Event-Driven", "Prototype-Based OOP", "First-class Functions"]), "py": ("Python", "Bahasa serbaguna dengan sintaks yang bersih dan ekspresif. Dominan di data science, automation, backend, dan AI.", ["Readable Syntax", "Dynamic & Interpreted", "Rich Standard Library", "Multi-paradigm"]), "css": ("CSS", "Bahasa styling yang mengatur tampilan visual web. Dari layout flexbox/grid hingga animasi kompleks dan efek visual modern.", ["Cascade & Specificity", "Box Model", "Flexbox & Grid", "Custom Properties"]), "html": ("HTML", "Tulang punggung struktur web. Markup semantik yang mendefinisikan konten, aksesibilitas, dan fondasi setiap halaman.", ["Semantic Elements", "Accessibility (a11y)", "Forms & Inputs", "SEO Foundation"]), "ts": ("TypeScript", "Superset JavaScript dengan static typing. Deteksi error di waktu kompilasi, tooling lebih baik, kode lebih aman dan scalable.", ["Static Typing", "Interfaces & Generics", "Compile-time Safety", "Enhanced IDE Support"]), "react": ("React", "Library UI berbasis komponen dari Meta. Declarative, component-driven, dengan ekosistem hooks dan state management yang kuat.", ["Component-Based", "Virtual DOM", "Unidirectional Data Flow", "Rich Hook System"]), "anim": ("Animasi CSS", "Animasi web tanpa JavaScript. Keyframes, transitions, transform, dan efek visual yang berjalan di GPU untuk performa optimal.", ["Keyframe Animations", "CSS Transitions", "Transform & 3D", "Performance on GPU"]), "svg": ("SVG", "Grafis vektor berbasis XML yang scalable di semua resolusi. Animatable, styleable dengan CSS, dan ideal untuk ikon dan ilustrasi web.", ["Vector-based", "CSS Styleable", "Animatable", "Resolution Independent"]), "three": ("Three.js", "Library 3D berbasis WebGL. Buat scene 3D, geometri, material, pencahayaan, dan animasi langsung di browser tanpa plugin.", ["WebGL Abstraction", "Scene Graph", "PBR Materials", "Real-time Rendering"]), "sql": ("SQL", "Bahasa query standar untuk database relasional. Dari SELECT dasar hingga JOIN kompleks, agregasi, dan optimasi query.", ["Declarative Query", "ACID Transactions", "Relational Model", "Set-based Operations"])};
+function startHomeTitleCycle() {
+  if (homeTitleTimer) clearInterval(homeTitleTimer);
+  homeTitleTimer = setInterval(playHomeTitleGlitch, 3500);
+}
+
+function triggerGlitch() {
+  playHomeTitleGlitch();
+  startHomeTitleCycle(); // reset timer supaya tidak dobel sama klik manual
+}
+
+startHomeTitleCycle();
+
+const LANG_DESC = {"js": ["JavaScript", "Bahasa scripting yang menghidupkan web modern. Dari manipulasi DOM hingga async, functional programming, dan ekosistem yang tak terbatas.", ["Dynamic Typing", "Event-Driven", "Prototype-Based OOP", "First-class Functions"]], "py": ["Python", "Bahasa serbaguna dengan sintaks yang bersih dan ekspresif. Dominan di data science, automation, backend, dan AI.", ["Readable Syntax", "Dynamic & Interpreted", "Rich Standard Library", "Multi-paradigm"]], "css": ["CSS", "Bahasa styling yang mengatur tampilan visual web. Dari layout flexbox/grid hingga animasi kompleks dan efek visual modern.", ["Cascade & Specificity", "Box Model", "Flexbox & Grid", "Custom Properties"]], "html": ["HTML", "Tulang punggung struktur web. Markup semantik yang mendefinisikan konten, aksesibilitas, dan fondasi setiap halaman.", ["Semantic Elements", "Accessibility (a11y)", "Forms & Inputs", "SEO Foundation"]], "ts": ["TypeScript", "Superset JavaScript dengan static typing. Deteksi error di waktu kompilasi, tooling lebih baik, kode lebih aman dan scalable.", ["Static Typing", "Interfaces & Generics", "Compile-time Safety", "Enhanced IDE Support"]], "react": ["React", "Library UI berbasis komponen dari Meta. Declarative, component-driven, dengan ekosistem hooks dan state management yang kuat.", ["Component-Based", "Virtual DOM", "Unidirectional Data Flow", "Rich Hook System"]], "anim": ["Animasi CSS", "Animasi web tanpa JavaScript. Keyframes, transitions, transform, dan efek visual yang berjalan di GPU untuk performa optimal.", ["Keyframe Animations", "CSS Transitions", "Transform & 3D", "Performance on GPU"]], "svg": ["SVG", "Grafis vektor berbasis XML yang scalable di semua resolusi. Animatable, styleable dengan CSS, dan ideal untuk ikon dan ilustrasi web.", ["Vector-based", "CSS Styleable", "Animatable", "Resolution Independent"]], "three": ["Three.js", "Library 3D berbasis WebGL. Buat scene 3D, geometri, material, pencahayaan, dan animasi langsung di browser tanpa plugin.", ["WebGL Abstraction", "Scene Graph", "PBR Materials", "Real-time Rendering"]], "sql": ["SQL", "Bahasa query standar untuk database relasional. Dari SELECT dasar hingga JOIN kompleks, agregasi, dan optimasi query.", ["Declarative Query", "ACID Transactions", "Relational Model", "Set-based Operations"]]};
 
 function showLangPage(lang) {
   const d = LANGS[lang];
@@ -1445,16 +2278,20 @@ function runHighlighter() {
 
 </script>
 
-<script src="data/js.js"></script>
-<script src="data/py.js"></script>
-<script src="data/css.js"></script>
-<script src="data/html.js"></script>
-<script src="data/ts.js"></script>
-<script src="data/react.js"></script>
-<script src="data/anim.js"></script>
-<script src="data/svg.js"></script>
-<script src="data/three.js"></script>
-<script src="data/sql.js"></script>
+<script src="data/js/js.js"></script>
+<script src="data/py/py.js"></script>
+<script src="data/css/css.js"></script>
+<script src="data/html/html.js"></script>
+<script src="data/html/html-guides.js"></script>
+<script src="data/html/html-attrs.js"></script>
+<script src="data/html/html-global-attrs.js"></script>
+<script src="data/html/html-elements.js"></script>
+<script src="data/ts/ts.js"></script>
+<script src="data/react/react.js"></script>
+<script src="data/anim/anim.js"></script>
+<script src="data/svg/svg.js"></script>
+<script src="data/three/three.js"></script>
+<script src="data/sql/sql.js"></script>
 <script>
 // ── PWA: Register Service Worker ──
 if ('serviceWorker' in navigator) {
