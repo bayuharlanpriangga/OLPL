@@ -97,7 +97,7 @@ export function TataLetakPustaka({
             initial={{ opacity: 0, y: 4 }}
             animate={{ opacity: 1, y: 0 }}
             transition={{ duration: 0.18, ease: 'easeOut' }}
-            className="flex-1 px-4 py-6 md:px-10 md:py-9"
+            className="min-w-0 w-full flex-1 px-4 py-6 md:px-10 md:py-9"
           >
             {children}
           </motion.main>

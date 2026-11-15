@@ -2,6 +2,7 @@ import type { Metadata } from 'next';
 import type { ReactElement } from 'react';
 import { notFound } from 'next/navigation';
 import {
+  KODE_BAHASA_LIST,
   PembacaDokumen,
   StatusKosongModul,
   TataLetakPustaka,
@@ -15,6 +16,18 @@ import {
 
 interface PropertiRuteDokumen {
   readonly params: Promise<{ readonly kode: string; readonly id: string }>;
+}
+
+export function generateStaticParams(): Array<{ readonly kode: string; readonly id: string }> {
+  const params: Array<{ readonly kode: string; readonly id: string }> = [];
+  for (const kode of KODE_BAHASA_LIST) {
+    for (const seksi of ambilSeksiBahasa(kode)) {
+      for (const butir of seksi.butir) {
+        params.push({ kode, id: butir.id });
+      }
+    }
+  }
+  return params;
 }
 
 export async function generateMetadata({

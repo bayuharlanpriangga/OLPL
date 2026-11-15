@@ -16,13 +16,18 @@ const fontMono = JetBrains_Mono({
   display: 'swap',
 });
 
+const basisJalur =
+  process.env.NEXT_PUBLIC_BASE_PATH && process.env.NEXT_PUBLIC_BASE_PATH !== '/'
+    ? process.env.NEXT_PUBLIC_BASE_PATH
+    : '';
+
 export const metadata: Metadata = {
   title: `${INFORMASI_APLIKASI.nama}: ${INFORMASI_APLIKASI.namaLengkap}`,
   description: INFORMASI_APLIKASI.deskripsi,
-  manifest: '/manifest.json',
+  manifest: `${basisJalur}/manifest.json`,
   icons: {
-    icon: '/icon-192.png',
-    apple: '/icon-192.png',
+    icon: `${basisJalur}/icon-192.png`,
+    apple: `${basisJalur}/icon-192.png`,
   },
   openGraph: {
     title: `${INFORMASI_APLIKASI.nama}: ${INFORMASI_APLIKASI.namaLengkap}`,

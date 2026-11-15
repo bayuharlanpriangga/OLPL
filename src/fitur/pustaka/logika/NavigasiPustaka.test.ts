@@ -18,7 +18,7 @@ test('hitungRingkasanBahasa menghitung modul tersedia dan total secara akurat', 
   assert.ok(infoJs);
   const ringkasan = hitungRingkasanBahasa(infoJs, katalog.seksiPerBahasa.js);
   assert.equal(ringkasan.totalModul, 17);
-  assert.equal(ringkasan.modulTersedia, 13);
+  assert.equal(ringkasan.modulTersedia, 17);
   assert.ok(ringkasan.totalEntri > 400);
 });
 

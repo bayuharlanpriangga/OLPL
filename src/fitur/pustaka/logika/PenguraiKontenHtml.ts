@@ -112,13 +112,17 @@ export function uraiSegmenInline(potongan: string): readonly SegmenInline[] {
   return hasil;
 }
 
+function dekodeTeksKode(potongan: string): string {
+  return dekodeEntitasHtml(potongan.replace(/<\/?span(?:\s+class="[^"]*")?>/gi, ''));
+}
+
 function uraiTokenDariKodeHtml(isiKode: string, bahasa: string): {
   readonly token: readonly TokenKode[];
   readonly teksSalin: string;
 } {
   const punyaSpan = /<span\s+class="/i.test(isiKode);
   if (!punyaSpan) {
-    const teksPolos = hilangkanTagHtml(isiKode);
+    const teksPolos = dekodeTeksKode(isiKode);
     return { token: sorotTeksKode(teksPolos, bahasa), teksSalin: teksPolos };
   }
 
@@ -130,7 +134,7 @@ function uraiTokenDariKodeHtml(isiKode: string, bahasa: string): {
   for (const cocok of isiKode.matchAll(polaSpan)) {
     const pos = cocok.index ?? 0;
     if (pos > kursor) {
-      const biasa = hilangkanTagHtml(isiKode.slice(kursor, pos));
+      const biasa = dekodeTeksKode(isiKode.slice(kursor, pos));
       if (biasa) {
         token.push({ jenis: 'biasa', isi: biasa });
         bagianSalin.push(biasa);
@@ -140,7 +144,7 @@ function uraiTokenDariKodeHtml(isiKode: string, bahasa: string): {
     const jenis: JenisTokenKode = JENIS_TOKEN_SAH.has(kelasMentah)
       ? (kelasMentah as JenisTokenKode)
       : 'biasa';
-    const isi = hilangkanTagHtml(cocok[2] ?? '');
+    const isi = dekodeTeksKode(cocok[2] ?? '');
     if (isi) {
       token.push({ jenis, isi });
       bagianSalin.push(isi);
@@ -149,7 +153,7 @@ function uraiTokenDariKodeHtml(isiKode: string, bahasa: string): {
   }
 
   if (kursor < isiKode.length) {
-    const sisa = hilangkanTagHtml(isiKode.slice(kursor));
+    const sisa = dekodeTeksKode(isiKode.slice(kursor));
     if (sisa) {
       token.push({ jenis: 'biasa', isi: sisa });
       bagianSalin.push(sisa);

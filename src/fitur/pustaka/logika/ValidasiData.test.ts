@@ -32,13 +32,22 @@ test('validasiKatalogMentah menolak kode bahasa tidak dikenal', () => {
   );
 });
 
-test('seluruh dataset OLPL hasil ekstraksi lolos validasi penuh', () => {
+test('seluruh 312 modul dataset OLPL tersedia dan lolos validasi penuh', () => {
   const dokumen = validasiKumpulanDokumen(kumpulanDokumenMentahJson as unknown);
-  assert.equal(dokumen.size, 273);
+  assert.equal(dokumen.size, 312);
 
   const katalog = validasiKatalogMentah(
     katalogMentahJson as unknown,
     new Set(dokumen.keys()),
   );
   assert.equal(katalog.bahasa.length, 10);
+
+  for (const b of katalog.bahasa) {
+    const seksi = katalog.seksiPerBahasa[b.kode];
+    for (const s of seksi) {
+      for (const butir of s.butir) {
+        assert.equal(butir.tersedia, true, `Modul ${butir.id} pada ${b.kode} masih berstatus draf`);
+      }
+    }
+  }
 });
