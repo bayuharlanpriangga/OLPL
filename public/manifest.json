@@ -1,0 +1,19 @@
+{
+  "name": "OLPL — Orias Library Programming Language",
+  "short_name": "OLPL",
+  "description": "Pustaka referensi dan dokumentasi 10 bahasa pemrograman dan teknologi web.",
+  "start_url": "/",
+  "scope": "/",
+  "display": "standalone",
+  "background_color": "#EEF1F4",
+  "theme_color": "#D4A72C",
+  "orientation": "portrait-primary",
+  "lang": "id",
+  "categories": ["education", "productivity"],
+  "icons": [
+    { "src": "/icon-192.png", "sizes": "192x192", "type": "image/png", "purpose": "any" },
+    { "src": "/icon-192.png", "sizes": "192x192", "type": "image/png", "purpose": "maskable" },
+    { "src": "/icon-512.png", "sizes": "512x512", "type": "image/png", "purpose": "any" },
+    { "src": "/icon-512.png", "sizes": "512x512", "type": "image/png", "purpose": "maskable" }
+  ]
+}

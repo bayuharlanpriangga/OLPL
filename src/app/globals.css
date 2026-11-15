@@ -1,0 +1,128 @@
+@import "tailwindcss";
+
+:root {
+  --orias-tinta-kuat: #0d0d0d;
+  --orias-perak-kuat: #eef1f4;
+  --orias-es: #a9c6dc;
+  --orias-emas: #d4a72c;
+
+  --orias-latar: #eef1f4;
+  --orias-permukaan: #f7f9fb;
+  --orias-teks: #0d0d0d;
+  --orias-teks-sekunder: #4a5663;
+  --orias-garis: #4f7a99;
+  --orias-tautan: #7a5c00;
+
+  --orias-sukses: #2f7048;
+  --orias-peringatan: #a8530e;
+  --orias-galat: #a93226;
+
+  --orias-scroll-track: #e6ebf0;
+  --orias-scroll-thumb: rgba(79, 122, 153, 0.34);
+  --orias-scroll-thumb-hover: rgba(79, 122, 153, 0.62);
+  --orias-scroll-thumb-active: #4f7a99;
+
+  --kode-kw: #6b21a8;
+  --kode-fn: #1d4ed8;
+  --kode-str: #2f7048;
+  --kode-num: #9a3412;
+  --kode-cm: #5a6573;
+  --kode-op: #a93226;
+  --kode-cls: #7a5c00;
+  --kode-var: #0f4c5c;
+  --kode-at: #6b21a8;
+  --kode-tag: #9a3412;
+  --kode-attr: #1d4ed8;
+  --kode-val: #2f7048;
+
+  color-scheme: light;
+}
+
+[data-tema='gelap'] {
+  --orias-latar: #0d0d0d;
+  --orias-permukaan: #14171a;
+  --orias-teks: #eef1f4;
+  --orias-teks-sekunder: rgba(238, 241, 244, 0.72);
+  --orias-garis: #a9c6dc;
+  --orias-tautan: #d4a72c;
+
+  --orias-sukses: #4e9a6b;
+  --orias-peringatan: #d9772b;
+  --orias-galat: #d4564a;
+
+  --orias-scroll-track: #0d0d0d;
+  --orias-scroll-thumb: rgba(169, 198, 220, 0.24);
+  --orias-scroll-thumb-hover: rgba(169, 198, 220, 0.46);
+  --orias-scroll-thumb-active: rgba(169, 198, 220, 0.72);
+
+  --kode-kw: #d8b4fe;
+  --kode-fn: #93c5fd;
+  --kode-str: #86efac;
+  --kode-num: #fdba74;
+  --kode-cm: #8b9bb0;
+  --kode-op: #fca5a5;
+  --kode-cls: #d4a72c;
+  --kode-var: #a9c6dc;
+  --kode-at: #d8b4fe;
+  --kode-tag: #fdba74;
+  --kode-attr: #93c5fd;
+  --kode-val: #86efac;
+
+  color-scheme: dark;
+}
+
+@layer base {
+  html {
+    background-color: var(--orias-latar);
+    color: var(--orias-teks);
+    font-family: var(--font-sans), system-ui, sans-serif;
+  }
+
+  *::-webkit-scrollbar {
+    width: 8px;
+    height: 8px;
+  }
+
+  html::-webkit-scrollbar-track {
+    background: var(--orias-scroll-track);
+  }
+
+  *::-webkit-scrollbar-track {
+    background: transparent;
+  }
+
+  *::-webkit-scrollbar-thumb {
+    background-color: var(--orias-scroll-thumb);
+    border: 2px solid transparent;
+    background-clip: content-box;
+  }
+
+  *::-webkit-scrollbar-thumb:hover {
+    background-color: var(--orias-scroll-thumb-hover);
+  }
+
+  *::-webkit-scrollbar-thumb:active {
+    background-color: var(--orias-scroll-thumb-active);
+  }
+
+  *::-webkit-scrollbar-corner {
+    background: transparent;
+  }
+
+  @supports not selector(::-webkit-scrollbar) {
+    * {
+      scrollbar-width: thin;
+      scrollbar-color: var(--orias-scroll-thumb) transparent;
+    }
+
+    html {
+      scrollbar-color: var(--orias-scroll-thumb) var(--orias-scroll-track);
+    }
+  }
+
+  code,
+  pre,
+  .font-mono {
+    font-family: var(--font-mono), ui-monospace, monospace;
+  }
+}

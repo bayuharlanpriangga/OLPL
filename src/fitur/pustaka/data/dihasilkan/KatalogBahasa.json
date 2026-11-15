@@ -1,0 +1,1847 @@
+{
+  "_otomatis": "Berkas dihasilkan otomatis oleh scripts/EkstrakPustaka.mjs. Jangan diedit manual.",
+  "bahasa": [
+    {
+      "kode": "js",
+      "nama": "JavaScript",
+      "ringkasan": "Bahasa scripting yang menghidupkan web modern. Dari manipulasi DOM hingga async, functional programming, dan ekosistem yang tak terbatas.",
+      "konsepKunci": [
+        "Dynamic Typing",
+        "Event-Driven",
+        "Prototype-Based OOP",
+        "First-class Functions"
+      ]
+    },
+    {
+      "kode": "py",
+      "nama": "Python",
+      "ringkasan": "Bahasa serbaguna dengan sintaks yang bersih dan ekspresif. Dominan di data science, automation, backend, dan AI.",
+      "konsepKunci": [
+        "Readable Syntax",
+        "Dynamic & Interpreted",
+        "Rich Standard Library",
+        "Multi-paradigm"
+      ]
+    },
+    {
+      "kode": "css",
+      "nama": "CSS",
+      "ringkasan": "Bahasa styling yang mengatur tampilan visual web. Dari layout flexbox/grid hingga animasi kompleks dan efek visual modern.",
+      "konsepKunci": [
+        "Cascade & Specificity",
+        "Box Model",
+        "Flexbox & Grid",
+        "Custom Properties"
+      ]
+    },
+    {
+      "kode": "html",
+      "nama": "HTML",
+      "ringkasan": "Tulang punggung struktur web. Markup semantik yang mendefinisikan konten, aksesibilitas, dan fondasi setiap halaman.",
+      "konsepKunci": [
+        "Semantic Elements",
+        "Accessibility (a11y)",
+        "Forms & Inputs",
+        "SEO Foundation"
+      ]
+    },
+    {
+      "kode": "ts",
+      "nama": "TypeScript",
+      "ringkasan": "Superset JavaScript dengan static typing. Deteksi error di waktu kompilasi, tooling lebih baik, kode lebih aman dan scalable.",
+      "konsepKunci": [
+        "Static Typing",
+        "Interfaces & Generics",
+        "Compile-time Safety",
+        "Enhanced IDE Support"
+      ]
+    },
+    {
+      "kode": "react",
+      "nama": "React",
+      "ringkasan": "Library UI berbasis komponen dari Meta. Declarative, component-driven, dengan ekosistem hooks dan state management yang kuat.",
+      "konsepKunci": [
+        "Component-Based",
+        "Virtual DOM",
+        "Unidirectional Data Flow",
+        "Rich Hook System"
+      ]
+    },
+    {
+      "kode": "anim",
+      "nama": "Animasi CSS",
+      "ringkasan": "Animasi web tanpa JavaScript. Keyframes, transitions, transform, dan efek visual yang berjalan di GPU untuk performa optimal.",
+      "konsepKunci": [
+        "Keyframe Animations",
+        "CSS Transitions",
+        "Transform & 3D",
+        "Performance on GPU"
+      ]
+    },
+    {
+      "kode": "svg",
+      "nama": "SVG",
+      "ringkasan": "Grafis vektor berbasis XML yang scalable di semua resolusi. Animatable, styleable dengan CSS, dan ideal untuk ikon dan ilustrasi web.",
+      "konsepKunci": [
+        "Vector-based",
+        "CSS Styleable",
+        "Animatable",
+        "Resolution Independent"
+      ]
+    },
+    {
+      "kode": "three",
+      "nama": "Three.js",
+      "ringkasan": "Library 3D berbasis WebGL. Buat scene 3D, geometri, material, pencahayaan, dan animasi langsung di browser tanpa plugin.",
+      "konsepKunci": [
+        "WebGL Abstraction",
+        "Scene Graph",
+        "PBR Materials",
+        "Real-time Rendering"
+      ]
+    },
+    {
+      "kode": "sql",
+      "nama": "SQL",
+      "ringkasan": "Bahasa query standar untuk database relasional. Dari SELECT dasar hingga JOIN kompleks, agregasi, dan optimasi query.",
+      "konsepKunci": [
+        "Declarative Query",
+        "ACID Transactions",
+        "Relational Model",
+        "Set-based Operations"
+      ]
+    }
+  ],
+  "seksiPerBahasa": {
+    "js": [
+      {
+        "judul": "DASAR",
+        "butir": [
+          {
+            "id": "js-var",
+            "judul": "Variabel & Tipe Data",
+            "jumlahEntri": 48
+          },
+          {
+            "id": "js-op",
+            "judul": "Operator",
+            "jumlahEntri": 30
+          },
+          {
+            "id": "js-cond",
+            "judul": "Kondisional (if/else/switch)",
+            "jumlahEntri": 12
+          },
+          {
+            "id": "js-loop",
+            "judul": "Loop (for/while/do-while)",
+            "jumlahEntri": 18
+          },
+          {
+            "id": "js-fn",
+            "judul": "Fungsi & Arrow Function",
+            "jumlahEntri": 25
+          },
+          {
+            "id": "js-scope",
+            "judul": "Scope, Hoisting & Closure",
+            "jumlahEntri": 15
+          }
+        ]
+      },
+      {
+        "judul": "STRUKTUR DATA",
+        "butir": [
+          {
+            "id": "js-arr",
+            "judul": "Array & 40+ Method",
+            "jumlahEntri": 48
+          },
+          {
+            "id": "js-obj",
+            "judul": "Object & Destructuring",
+            "jumlahEntri": 38
+          },
+          {
+            "id": "js-str",
+            "judul": "String & Template Literal",
+            "jumlahEntri": 35
+          },
+          {
+            "id": "js-map",
+            "judul": "Map, Set, WeakMap",
+            "jumlahEntri": 20
+          }
+        ]
+      },
+      {
+        "judul": "OOP & LANJUTAN",
+        "butir": [
+          {
+            "id": "js-class",
+            "judul": "Class & OOP",
+            "jumlahEntri": 22
+          },
+          {
+            "id": "js-async",
+            "judul": "Async/Await & Promise",
+            "jumlahEntri": 20
+          },
+          {
+            "id": "js-err",
+            "judul": "Error Handling",
+            "jumlahEntri": 14
+          },
+          {
+            "id": "js-mod",
+            "judul": "ES Modules (import/export)",
+            "jumlahEntri": 10
+          }
+        ]
+      },
+      {
+        "judul": "DOM & BROWSER",
+        "butir": [
+          {
+            "id": "js-dom",
+            "judul": "DOM Manipulation",
+            "jumlahEntri": 55
+          },
+          {
+            "id": "js-ev",
+            "judul": "Event Listener",
+            "jumlahEntri": 40
+          },
+          {
+            "id": "js-fetch",
+            "judul": "Fetch API & AJAX",
+            "jumlahEntri": 16
+          }
+        ]
+      }
+    ],
+    "py": [
+      {
+        "judul": "DASAR",
+        "butir": [
+          {
+            "id": "py-var",
+            "judul": "Variabel & Tipe Data",
+            "jumlahEntri": 40
+          },
+          {
+            "id": "py-str",
+            "judul": "String & Format",
+            "jumlahEntri": 35
+          },
+          {
+            "id": "py-list",
+            "judul": "List, Tuple & Set",
+            "jumlahEntri": 30
+          },
+          {
+            "id": "py-dict",
+            "judul": "Dictionary",
+            "jumlahEntri": 22
+          },
+          {
+            "id": "py-loop",
+            "judul": "Loop & Comprehension",
+            "jumlahEntri": 18
+          },
+          {
+            "id": "py-fn",
+            "judul": "Fungsi & Lambda",
+            "jumlahEntri": 28
+          }
+        ]
+      },
+      {
+        "judul": "OOP",
+        "butir": [
+          {
+            "id": "py-cls",
+            "judul": "Class & Object",
+            "jumlahEntri": 25
+          },
+          {
+            "id": "py-inh",
+            "judul": "Inheritance & Mixin",
+            "jumlahEntri": 15
+          }
+        ]
+      },
+      {
+        "judul": "LIBRARY STANDAR",
+        "butir": [
+          {
+            "id": "py-os",
+            "judul": "os & pathlib",
+            "jumlahEntri": 18
+          },
+          {
+            "id": "py-json",
+            "judul": "json & csv",
+            "jumlahEntri": 12
+          },
+          {
+            "id": "py-re",
+            "judul": "Regex (re)",
+            "jumlahEntri": 16
+          }
+        ]
+      }
+    ],
+    "css": [
+      {
+        "judul": "DASAR",
+        "butir": [
+          {
+            "id": "css-sel",
+            "judul": "Selector & Spesifisitas",
+            "jumlahEntri": 40
+          },
+          {
+            "id": "css-box",
+            "judul": "Box Model",
+            "jumlahEntri": 15
+          },
+          {
+            "id": "css-pos",
+            "judul": "Position (static/rel/abs/fix)",
+            "jumlahEntri": 10
+          },
+          {
+            "id": "css-col",
+            "judul": "Warna & Gradient",
+            "jumlahEntri": 25
+          },
+          {
+            "id": "css-typ",
+            "judul": "Typography & Font",
+            "jumlahEntri": 30
+          }
+        ]
+      },
+      {
+        "judul": "LAYOUT",
+        "butir": [
+          {
+            "id": "css-flex",
+            "judul": "Flexbox Lengkap",
+            "jumlahEntri": 20
+          },
+          {
+            "id": "css-grid",
+            "judul": "CSS Grid Lengkap",
+            "jumlahEntri": 22
+          },
+          {
+            "id": "css-resp",
+            "judul": "Responsive & Media Query",
+            "jumlahEntri": 18
+          }
+        ]
+      },
+      {
+        "judul": "VISUAL & EFEK",
+        "butir": [
+          {
+            "id": "css-var",
+            "judul": "CSS Variable",
+            "jumlahEntri": 8
+          },
+          {
+            "id": "css-tfm",
+            "judul": "Transform (2D & 3D)",
+            "jumlahEntri": 14
+          },
+          {
+            "id": "css-shad",
+            "judul": "Box Shadow & Drop Shadow",
+            "jumlahEntri": 12
+          }
+        ]
+      }
+    ],
+    "html": [
+      {
+        "judul": "GUIDES",
+        "butir": [
+          {
+            "id": "html-g-cheatsheet",
+            "judul": "Cheatsheet",
+            "jumlahEntri": 1
+          },
+          {
+            "id": "html-g-comments",
+            "judul": "Comments",
+            "jumlahEntri": 1
+          },
+          {
+            "id": "html-g-validation",
+            "judul": "Constraint Validation",
+            "jumlahEntri": 1
+          },
+          {
+            "id": "html-g-categories",
+            "judul": "Content Categories",
+            "jumlahEntri": 1
+          },
+          {
+            "id": "html-g-datetime",
+            "judul": "Date and Time Formats",
+            "jumlahEntri": 1
+          },
+          {
+            "id": "html-g-microdata",
+            "judul": "Microdata",
+            "jumlahEntri": 1
+          },
+          {
+            "id": "html-g-microformats",
+            "judul": "Microformats",
+            "jumlahEntri": 1
+          },
+          {
+            "id": "html-g-quirks",
+            "judul": "Quirks Mode and Standards Mode",
+            "jumlahEntri": 1
+          },
+          {
+            "id": "html-g-responsive",
+            "judul": "Responsive Images",
+            "jumlahEntri": 1
+          }
+        ]
+      },
+      {
+        "judul": "ATTRIBUTES",
+        "butir": [
+          {
+            "id": "html-a-accept",
+            "judul": "accept",
+            "jumlahEntri": 1
+          },
+          {
+            "id": "html-a-autocomplete",
+            "judul": "autocomplete",
+            "jumlahEntri": 1
+          },
+          {
+            "id": "html-a-capture",
+            "judul": "capture",
+            "jumlahEntri": 1
+          },
+          {
+            "id": "html-a-content",
+            "judul": "content",
+            "jumlahEntri": 1
+          },
+          {
+            "id": "html-a-crossorigin",
+            "judul": "crossorigin",
+            "jumlahEntri": 1
+          },
+          {
+            "id": "html-a-dirname",
+            "judul": "dirname",
+            "jumlahEntri": 1
+          },
+          {
+            "id": "html-a-disabled",
+            "judul": "disabled",
+            "jumlahEntri": 1
+          },
+          {
+            "id": "html-a-elementtiming",
+            "judul": "elementtiming",
+            "jumlahEntri": 1
+          },
+          {
+            "id": "html-a-fetchpriority",
+            "judul": "fetchpriority",
+            "jumlahEntri": 1
+          },
+          {
+            "id": "html-a-for",
+            "judul": "for",
+            "jumlahEntri": 1
+          },
+          {
+            "id": "html-a-form",
+            "judul": "form",
+            "jumlahEntri": 1
+          },
+          {
+            "id": "html-a-integrity",
+            "judul": "integrity",
+            "jumlahEntri": 1
+          },
+          {
+            "id": "html-a-max",
+            "judul": "max",
+            "jumlahEntri": 1
+          },
+          {
+            "id": "html-a-maxlength",
+            "judul": "maxlength",
+            "jumlahEntri": 1
+          },
+          {
+            "id": "html-a-min",
+            "judul": "min",
+            "jumlahEntri": 1
+          },
+          {
+            "id": "html-a-minlength",
+            "judul": "minlength",
+            "jumlahEntri": 1
+          },
+          {
+            "id": "html-a-multiple",
+            "judul": "multiple",
+            "jumlahEntri": 1
+          },
+          {
+            "id": "html-a-pattern",
+            "judul": "pattern",
+            "jumlahEntri": 1
+          },
+          {
+            "id": "html-a-placeholder",
+            "judul": "placeholder",
+            "jumlahEntri": 1
+          },
+          {
+            "id": "html-a-readonly",
+            "judul": "readonly",
+            "jumlahEntri": 1
+          },
+          {
+            "id": "html-a-rel",
+            "judul": "rel",
+            "jumlahEntri": 1
+          },
+          {
+            "id": "html-a-rel-alternate-stylesheet",
+            "judul": "rel.alternate stylesheet",
+            "jumlahEntri": 1
+          },
+          {
+            "id": "html-a-rel-compression-dictionary",
+            "judul": "rel.compression-dictionary",
+            "jumlahEntri": 1
+          },
+          {
+            "id": "html-a-rel-dns-prefetch",
+            "judul": "rel.dns-prefetch",
+            "jumlahEntri": 1
+          },
+          {
+            "id": "html-a-rel-manifest",
+            "judul": "rel.manifest",
+            "jumlahEntri": 1
+          },
+          {
+            "id": "html-a-rel-me",
+            "judul": "rel.me",
+            "jumlahEntri": 1
+          },
+          {
+            "id": "html-a-rel-modulepreload",
+            "judul": "rel.modulepreload",
+            "jumlahEntri": 1
+          },
+          {
+            "id": "html-a-rel-noopener",
+            "judul": "rel.noopener",
+            "jumlahEntri": 1
+          },
+          {
+            "id": "html-a-rel-noreferrer",
+            "judul": "rel.noreferrer",
+            "jumlahEntri": 1
+          },
+          {
+            "id": "html-a-rel-preconnect",
+            "judul": "rel.preconnect",
+            "jumlahEntri": 1
+          },
+          {
+            "id": "html-a-rel-prefetch",
+            "judul": "rel.prefetch",
+            "jumlahEntri": 1
+          },
+          {
+            "id": "html-a-rel-preload",
+            "judul": "rel.preload",
+            "jumlahEntri": 1
+          },
+          {
+            "id": "html-a-required",
+            "judul": "required",
+            "jumlahEntri": 1
+          },
+          {
+            "id": "html-a-size",
+            "judul": "size",
+            "jumlahEntri": 1
+          },
+          {
+            "id": "html-a-step",
+            "judul": "step",
+            "jumlahEntri": 1
+          },
+          {
+            "id": "html-a-download",
+            "judul": "download",
+            "jumlahEntri": 1
+          }
+        ]
+      },
+      {
+        "judul": "GLOBAL ATTRIBUTES",
+        "butir": [
+          {
+            "id": "html-ga-accesskey",
+            "judul": "accesskey",
+            "jumlahEntri": 1
+          },
+          {
+            "id": "html-ga-autocapitalize",
+            "judul": "autocapitalize",
+            "jumlahEntri": 1
+          },
+          {
+            "id": "html-ga-autocorrect",
+            "judul": "autocorrect",
+            "jumlahEntri": 1
+          },
+          {
+            "id": "html-ga-autofocus",
+            "judul": "autofocus",
+            "jumlahEntri": 1
+          },
+          {
+            "id": "html-ga-class",
+            "judul": "class",
+            "jumlahEntri": 1
+          },
+          {
+            "id": "html-ga-contenteditable",
+            "judul": "contenteditable",
+            "jumlahEntri": 1
+          },
+          {
+            "id": "html-ga-data",
+            "judul": "data-*",
+            "jumlahEntri": 1
+          },
+          {
+            "id": "html-ga-dir",
+            "judul": "dir",
+            "jumlahEntri": 1
+          },
+          {
+            "id": "html-ga-draggable",
+            "judul": "draggable",
+            "jumlahEntri": 1
+          },
+          {
+            "id": "html-ga-enterkeyhint",
+            "judul": "enterkeyhint",
+            "jumlahEntri": 1
+          },
+          {
+            "id": "html-ga-exportparts",
+            "judul": "exportparts",
+            "jumlahEntri": 1
+          },
+          {
+            "id": "html-ga-hidden",
+            "judul": "hidden",
+            "jumlahEntri": 1
+          },
+          {
+            "id": "html-ga-id",
+            "judul": "id",
+            "jumlahEntri": 1
+          },
+          {
+            "id": "html-ga-inert",
+            "judul": "inert",
+            "jumlahEntri": 1
+          },
+          {
+            "id": "html-ga-inputmode",
+            "judul": "inputmode",
+            "jumlahEntri": 1
+          },
+          {
+            "id": "html-ga-is",
+            "judul": "is",
+            "jumlahEntri": 1
+          },
+          {
+            "id": "html-ga-itemid",
+            "judul": "itemid",
+            "jumlahEntri": 1
+          },
+          {
+            "id": "html-ga-itemprop",
+            "judul": "itemprop",
+            "jumlahEntri": 1
+          },
+          {
+            "id": "html-ga-itemref",
+            "judul": "itemref",
+            "jumlahEntri": 1
+          },
+          {
+            "id": "html-ga-itemscope",
+            "judul": "itemscope",
+            "jumlahEntri": 1
+          },
+          {
+            "id": "html-ga-itemtype",
+            "judul": "itemtype",
+            "jumlahEntri": 1
+          },
+          {
+            "id": "html-ga-lang",
+            "judul": "lang",
+            "jumlahEntri": 1
+          },
+          {
+            "id": "html-ga-nonce",
+            "judul": "nonce",
+            "jumlahEntri": 1
+          },
+          {
+            "id": "html-ga-part",
+            "judul": "part",
+            "jumlahEntri": 1
+          },
+          {
+            "id": "html-ga-popover",
+            "judul": "popover",
+            "jumlahEntri": 1
+          },
+          {
+            "id": "html-ga-slot",
+            "judul": "slot",
+            "jumlahEntri": 1
+          },
+          {
+            "id": "html-ga-spellcheck",
+            "judul": "spellcheck",
+            "jumlahEntri": 1
+          },
+          {
+            "id": "html-ga-style",
+            "judul": "style",
+            "jumlahEntri": 1
+          },
+          {
+            "id": "html-ga-tabindex",
+            "judul": "tabindex",
+            "jumlahEntri": 1
+          },
+          {
+            "id": "html-ga-title",
+            "judul": "title",
+            "jumlahEntri": 1
+          },
+          {
+            "id": "html-ga-translate",
+            "judul": "translate",
+            "jumlahEntri": 1
+          },
+          {
+            "id": "html-ga-writingsuggestions",
+            "judul": "writingsuggestions",
+            "jumlahEntri": 1
+          },
+          {
+            "id": "html-ga-virtualkeyboardpolicy",
+            "judul": "virtualkeyboardpolicy",
+            "jumlahEntri": 1
+          },
+          {
+            "id": "html-ga-role",
+            "judul": "role",
+            "jumlahEntri": 1
+          },
+          {
+            "id": "html-ga-aria",
+            "judul": "aria-*",
+            "jumlahEntri": 1
+          }
+        ]
+      },
+      {
+        "judul": "ELEMENTS",
+        "butir": [
+          {
+            "id": "html-e-a",
+            "judul": "<a>",
+            "jumlahEntri": 1
+          },
+          {
+            "id": "html-e-abbr",
+            "judul": "<abbr>",
+            "jumlahEntri": 1
+          },
+          {
+            "id": "html-e-acronym",
+            "judul": "<acronym>",
+            "jumlahEntri": 1
+          },
+          {
+            "id": "html-e-address",
+            "judul": "<address>",
+            "jumlahEntri": 1
+          },
+          {
+            "id": "html-e-applet",
+            "judul": "<applet>",
+            "jumlahEntri": 1
+          },
+          {
+            "id": "html-e-area",
+            "judul": "<area>",
+            "jumlahEntri": 1
+          },
+          {
+            "id": "html-e-article",
+            "judul": "<article>",
+            "jumlahEntri": 1
+          },
+          {
+            "id": "html-e-aside",
+            "judul": "<aside>",
+            "jumlahEntri": 1
+          },
+          {
+            "id": "html-e-audio",
+            "judul": "<audio>",
+            "jumlahEntri": 1
+          },
+          {
+            "id": "html-e-b",
+            "judul": "<b>",
+            "jumlahEntri": 1
+          },
+          {
+            "id": "html-e-base",
+            "judul": "<base>",
+            "jumlahEntri": 1
+          },
+          {
+            "id": "html-e-basefont",
+            "judul": "<basefont>",
+            "jumlahEntri": 1
+          },
+          {
+            "id": "html-e-bdi",
+            "judul": "<bdi>",
+            "jumlahEntri": 1
+          },
+          {
+            "id": "html-e-bdo",
+            "judul": "<bdo>",
+            "jumlahEntri": 1
+          },
+          {
+            "id": "html-e-bgsound",
+            "judul": "<bgsound>",
+            "jumlahEntri": 1
+          },
+          {
+            "id": "html-e-big",
+            "judul": "<big>",
+            "jumlahEntri": 1
+          },
+          {
+            "id": "html-e-blink",
+            "judul": "<blink>",
+            "jumlahEntri": 1
+          },
+          {
+            "id": "html-e-blockquote",
+            "judul": "<blockquote>",
+            "jumlahEntri": 1
+          },
+          {
+            "id": "html-e-body",
+            "judul": "<body>",
+            "jumlahEntri": 1
+          },
+          {
+            "id": "html-e-br",
+            "judul": "<br>",
+            "jumlahEntri": 1
+          },
+          {
+            "id": "html-e-button",
+            "judul": "<button>",
+            "jumlahEntri": 1
+          },
+          {
+            "id": "html-e-canvas",
+            "judul": "<canvas>",
+            "jumlahEntri": 1
+          },
+          {
+            "id": "html-e-caption",
+            "judul": "<caption>",
+            "jumlahEntri": 1
+          },
+          {
+            "id": "html-e-center",
+            "judul": "<center>",
+            "jumlahEntri": 1
+          },
+          {
+            "id": "html-e-cite",
+            "judul": "<cite>",
+            "jumlahEntri": 1
+          },
+          {
+            "id": "html-e-code",
+            "judul": "<code>",
+            "jumlahEntri": 1
+          },
+          {
+            "id": "html-e-col",
+            "judul": "<col>",
+            "jumlahEntri": 1
+          },
+          {
+            "id": "html-e-colgroup",
+            "judul": "<colgroup>",
+            "jumlahEntri": 1
+          },
+          {
+            "id": "html-e-command",
+            "judul": "<command>",
+            "jumlahEntri": 1
+          },
+          {
+            "id": "html-e-content",
+            "judul": "<content>",
+            "jumlahEntri": 1
+          },
+          {
+            "id": "html-e-data",
+            "judul": "<data>",
+            "jumlahEntri": 1
+          },
+          {
+            "id": "html-e-datalist",
+            "judul": "<datalist>",
+            "jumlahEntri": 1
+          },
+          {
+            "id": "html-e-dd",
+            "judul": "<dd>",
+            "jumlahEntri": 1
+          },
+          {
+            "id": "html-e-del",
+            "judul": "<del>",
+            "jumlahEntri": 1
+          },
+          {
+            "id": "html-e-details",
+            "judul": "<details>",
+            "jumlahEntri": 1
+          },
+          {
+            "id": "html-e-dfn",
+            "judul": "<dfn>",
+            "jumlahEntri": 1
+          },
+          {
+            "id": "html-e-dialog",
+            "judul": "<dialog>",
+            "jumlahEntri": 1
+          },
+          {
+            "id": "html-e-dir",
+            "judul": "<dir>",
+            "jumlahEntri": 1
+          },
+          {
+            "id": "html-e-div",
+            "judul": "<div>",
+            "jumlahEntri": 1
+          },
+          {
+            "id": "html-e-dl",
+            "judul": "<dl>",
+            "jumlahEntri": 1
+          },
+          {
+            "id": "html-e-dt",
+            "judul": "<dt>",
+            "jumlahEntri": 1
+          },
+          {
+            "id": "html-e-element",
+            "judul": "<element>",
+            "jumlahEntri": 1
+          },
+          {
+            "id": "html-e-em",
+            "judul": "<em>",
+            "jumlahEntri": 1
+          },
+          {
+            "id": "html-e-embed",
+            "judul": "<embed>",
+            "jumlahEntri": 1
+          },
+          {
+            "id": "html-e-fieldset",
+            "judul": "<fieldset>",
+            "jumlahEntri": 1
+          },
+          {
+            "id": "html-e-figcaption",
+            "judul": "<figcaption>",
+            "jumlahEntri": 1
+          },
+          {
+            "id": "html-e-figure",
+            "judul": "<figure>",
+            "jumlahEntri": 1
+          },
+          {
+            "id": "html-e-font",
+            "judul": "<font>",
+            "jumlahEntri": 1
+          },
+          {
+            "id": "html-e-footer",
+            "judul": "<footer>",
+            "jumlahEntri": 1
+          },
+          {
+            "id": "html-e-form",
+            "judul": "<form>",
+            "jumlahEntri": 1
+          },
+          {
+            "id": "html-e-frame",
+            "judul": "<frame>",
+            "jumlahEntri": 1
+          },
+          {
+            "id": "html-e-frameset",
+            "judul": "<frameset>",
+            "jumlahEntri": 1
+          },
+          {
+            "id": "html-e-h1",
+            "judul": "<h1>",
+            "jumlahEntri": 1
+          },
+          {
+            "id": "html-e-h2",
+            "judul": "<h2>",
+            "jumlahEntri": 1
+          },
+          {
+            "id": "html-e-h3",
+            "judul": "<h3>",
+            "jumlahEntri": 1
+          },
+          {
+            "id": "html-e-h4",
+            "judul": "<h4>",
+            "jumlahEntri": 1
+          },
+          {
+            "id": "html-e-h5",
+            "judul": "<h5>",
+            "jumlahEntri": 1
+          },
+          {
+            "id": "html-e-h6",
+            "judul": "<h6>",
+            "jumlahEntri": 1
+          },
+          {
+            "id": "html-e-head",
+            "judul": "<head>",
+            "jumlahEntri": 1
+          },
+          {
+            "id": "html-e-header",
+            "judul": "<header>",
+            "jumlahEntri": 1
+          },
+          {
+            "id": "html-e-hgroup",
+            "judul": "<hgroup>",
+            "jumlahEntri": 1
+          },
+          {
+            "id": "html-e-hr",
+            "judul": "<hr>",
+            "jumlahEntri": 1
+          },
+          {
+            "id": "html-e-html",
+            "judul": "<html>",
+            "jumlahEntri": 1
+          },
+          {
+            "id": "html-e-i",
+            "judul": "<i>",
+            "jumlahEntri": 1
+          },
+          {
+            "id": "html-e-iframe",
+            "judul": "<iframe>",
+            "jumlahEntri": 1
+          },
+          {
+            "id": "html-e-image",
+            "judul": "<image>",
+            "jumlahEntri": 1
+          },
+          {
+            "id": "html-e-img",
+            "judul": "<img>",
+            "jumlahEntri": 1
+          },
+          {
+            "id": "html-e-input",
+            "judul": "<input>",
+            "jumlahEntri": 1
+          },
+          {
+            "id": "html-e-ins",
+            "judul": "<ins>",
+            "jumlahEntri": 1
+          },
+          {
+            "id": "html-e-isindex",
+            "judul": "<isindex>",
+            "jumlahEntri": 1
+          },
+          {
+            "id": "html-e-kbd",
+            "judul": "<kbd>",
+            "jumlahEntri": 1
+          },
+          {
+            "id": "html-e-keygen",
+            "judul": "<keygen>",
+            "jumlahEntri": 1
+          },
+          {
+            "id": "html-e-label",
+            "judul": "<label>",
+            "jumlahEntri": 1
+          },
+          {
+            "id": "html-e-legend",
+            "judul": "<legend>",
+            "jumlahEntri": 1
+          },
+          {
+            "id": "html-e-li",
+            "judul": "<li>",
+            "jumlahEntri": 1
+          },
+          {
+            "id": "html-e-link",
+            "judul": "<link>",
+            "jumlahEntri": 1
+          },
+          {
+            "id": "html-e-listing",
+            "judul": "<listing>",
+            "jumlahEntri": 1
+          },
+          {
+            "id": "html-e-main",
+            "judul": "<main>",
+            "jumlahEntri": 1
+          },
+          {
+            "id": "html-e-map",
+            "judul": "<map>",
+            "jumlahEntri": 1
+          },
+          {
+            "id": "html-e-mark",
+            "judul": "<mark>",
+            "jumlahEntri": 1
+          },
+          {
+            "id": "html-e-marquee",
+            "judul": "<marquee>",
+            "jumlahEntri": 1
+          },
+          {
+            "id": "html-e-math",
+            "judul": "<math>",
+            "jumlahEntri": 1
+          },
+          {
+            "id": "html-e-menu",
+            "judul": "<menu>",
+            "jumlahEntri": 1
+          },
+          {
+            "id": "html-e-menuitem",
+            "judul": "<menuitem>",
+            "jumlahEntri": 1
+          },
+          {
+            "id": "html-e-meta",
+            "judul": "<meta>",
+            "jumlahEntri": 1
+          },
+          {
+            "id": "html-e-meter",
+            "judul": "<meter>",
+            "jumlahEntri": 1
+          },
+          {
+            "id": "html-e-multicol",
+            "judul": "<multicol>",
+            "jumlahEntri": 1
+          },
+          {
+            "id": "html-e-nav",
+            "judul": "<nav>",
+            "jumlahEntri": 1
+          },
+          {
+            "id": "html-e-nextid",
+            "judul": "<nextid>",
+            "jumlahEntri": 1
+          },
+          {
+            "id": "html-e-nobr",
+            "judul": "<nobr>",
+            "jumlahEntri": 1
+          },
+          {
+            "id": "html-e-noembed",
+            "judul": "<noembed>",
+            "jumlahEntri": 1
+          },
+          {
+            "id": "html-e-noframes",
+            "judul": "<noframes>",
+            "jumlahEntri": 1
+          },
+          {
+            "id": "html-e-noscript",
+            "judul": "<noscript>",
+            "jumlahEntri": 1
+          },
+          {
+            "id": "html-e-object",
+            "judul": "<object>",
+            "jumlahEntri": 1
+          },
+          {
+            "id": "html-e-ol",
+            "judul": "<ol>",
+            "jumlahEntri": 1
+          },
+          {
+            "id": "html-e-optgroup",
+            "judul": "<optgroup>",
+            "jumlahEntri": 1
+          },
+          {
+            "id": "html-e-option",
+            "judul": "<option>",
+            "jumlahEntri": 1
+          },
+          {
+            "id": "html-e-output",
+            "judul": "<output>",
+            "jumlahEntri": 1
+          },
+          {
+            "id": "html-e-p",
+            "judul": "<p>",
+            "jumlahEntri": 1
+          },
+          {
+            "id": "html-e-picture",
+            "judul": "<picture>",
+            "jumlahEntri": 1
+          },
+          {
+            "id": "html-e-plaintext",
+            "judul": "<plaintext>",
+            "jumlahEntri": 1
+          },
+          {
+            "id": "html-e-pre",
+            "judul": "<pre>",
+            "jumlahEntri": 1
+          },
+          {
+            "id": "html-e-progress",
+            "judul": "<progress>",
+            "jumlahEntri": 1
+          },
+          {
+            "id": "html-e-q",
+            "judul": "<q>",
+            "jumlahEntri": 1
+          },
+          {
+            "id": "html-e-rb",
+            "judul": "<rb>",
+            "jumlahEntri": 1
+          },
+          {
+            "id": "html-e-rp",
+            "judul": "<rp>",
+            "jumlahEntri": 1
+          },
+          {
+            "id": "html-e-rt",
+            "judul": "<rt>",
+            "jumlahEntri": 1
+          },
+          {
+            "id": "html-e-rtc",
+            "judul": "<rtc>",
+            "jumlahEntri": 1
+          },
+          {
+            "id": "html-e-ruby",
+            "judul": "<ruby>",
+            "jumlahEntri": 1
+          },
+          {
+            "id": "html-e-s",
+            "judul": "<s>",
+            "jumlahEntri": 1
+          },
+          {
+            "id": "html-e-samp",
+            "judul": "<samp>",
+            "jumlahEntri": 1
+          },
+          {
+            "id": "html-e-script",
+            "judul": "<script>",
+            "jumlahEntri": 1
+          },
+          {
+            "id": "html-e-search",
+            "judul": "<search>",
+            "jumlahEntri": 1
+          },
+          {
+            "id": "html-e-section",
+            "judul": "<section>",
+            "jumlahEntri": 1
+          },
+          {
+            "id": "html-e-select",
+            "judul": "<select>",
+            "jumlahEntri": 1
+          },
+          {
+            "id": "html-e-shadow",
+            "judul": "<shadow>",
+            "jumlahEntri": 1
+          },
+          {
+            "id": "html-e-slot",
+            "judul": "<slot>",
+            "jumlahEntri": 1
+          },
+          {
+            "id": "html-e-small",
+            "judul": "<small>",
+            "jumlahEntri": 1
+          },
+          {
+            "id": "html-e-source",
+            "judul": "<source>",
+            "jumlahEntri": 1
+          },
+          {
+            "id": "html-e-span",
+            "judul": "<span>",
+            "jumlahEntri": 1
+          },
+          {
+            "id": "html-e-strike",
+            "judul": "<strike>",
+            "jumlahEntri": 1
+          },
+          {
+            "id": "html-e-strong",
+            "judul": "<strong>",
+            "jumlahEntri": 1
+          },
+          {
+            "id": "html-e-style",
+            "judul": "<style>",
+            "jumlahEntri": 1
+          },
+          {
+            "id": "html-e-sub",
+            "judul": "<sub>",
+            "jumlahEntri": 1
+          },
+          {
+            "id": "html-e-summary",
+            "judul": "<summary>",
+            "jumlahEntri": 1
+          },
+          {
+            "id": "html-e-sup",
+            "judul": "<sup>",
+            "jumlahEntri": 1
+          },
+          {
+            "id": "html-e-svg",
+            "judul": "<svg>",
+            "jumlahEntri": 1
+          },
+          {
+            "id": "html-e-table",
+            "judul": "<table>",
+            "jumlahEntri": 1
+          },
+          {
+            "id": "html-e-tbody",
+            "judul": "<tbody>",
+            "jumlahEntri": 1
+          },
+          {
+            "id": "html-e-td",
+            "judul": "<td>",
+            "jumlahEntri": 1
+          },
+          {
+            "id": "html-e-template",
+            "judul": "<template>",
+            "jumlahEntri": 1
+          },
+          {
+            "id": "html-e-textarea",
+            "judul": "<textarea>",
+            "jumlahEntri": 1
+          },
+          {
+            "id": "html-e-tfoot",
+            "judul": "<tfoot>",
+            "jumlahEntri": 1
+          },
+          {
+            "id": "html-e-th",
+            "judul": "<th>",
+            "jumlahEntri": 1
+          },
+          {
+            "id": "html-e-thead",
+            "judul": "<thead>",
+            "jumlahEntri": 1
+          },
+          {
+            "id": "html-e-time",
+            "judul": "<time>",
+            "jumlahEntri": 1
+          },
+          {
+            "id": "html-e-title",
+            "judul": "<title>",
+            "jumlahEntri": 1
+          },
+          {
+            "id": "html-e-tr",
+            "judul": "<tr>",
+            "jumlahEntri": 1
+          },
+          {
+            "id": "html-e-track",
+            "judul": "<track>",
+            "jumlahEntri": 1
+          },
+          {
+            "id": "html-e-u",
+            "judul": "<u>",
+            "jumlahEntri": 1
+          },
+          {
+            "id": "html-e-ul",
+            "judul": "<ul>",
+            "jumlahEntri": 1
+          },
+          {
+            "id": "html-e-var",
+            "judul": "<var>",
+            "jumlahEntri": 1
+          },
+          {
+            "id": "html-e-video",
+            "judul": "<video>",
+            "jumlahEntri": 1
+          },
+          {
+            "id": "html-e-wbr",
+            "judul": "<wbr>",
+            "jumlahEntri": 1
+          }
+        ]
+      },
+      {
+        "judul": "STRUKTUR",
+        "butir": [
+          {
+            "id": "html-base",
+            "judul": "Struktur Dasar & DOCTYPE",
+            "jumlahEntri": 10
+          },
+          {
+            "id": "html-sem",
+            "judul": "Semantic HTML5",
+            "jumlahEntri": 25
+          },
+          {
+            "id": "html-txt",
+            "judul": "Elemen Teks & Inline",
+            "jumlahEntri": 30
+          }
+        ]
+      },
+      {
+        "judul": "MEDIA & FORM",
+        "butir": [
+          {
+            "id": "html-lnk",
+            "judul": "Link & Anchor",
+            "jumlahEntri": 12
+          },
+          {
+            "id": "html-img",
+            "judul": "Gambar, Video & Audio",
+            "jumlahEntri": 15
+          },
+          {
+            "id": "html-frm",
+            "judul": "Form & Input Lengkap",
+            "jumlahEntri": 35
+          },
+          {
+            "id": "html-tbl",
+            "judul": "Tabel",
+            "jumlahEntri": 15
+          }
+        ]
+      }
+    ],
+    "ts": [
+      {
+        "judul": "DASAR",
+        "butir": [
+          {
+            "id": "ts-types",
+            "judul": "Types & Interface",
+            "jumlahEntri": 30
+          },
+          {
+            "id": "ts-gen",
+            "judul": "Generics",
+            "jumlahEntri": 20
+          },
+          {
+            "id": "ts-enum",
+            "judul": "Enum & Union Types",
+            "jumlahEntri": 15
+          },
+          {
+            "id": "ts-util",
+            "judul": "Utility Types",
+            "jumlahEntri": 18
+          }
+        ]
+      }
+    ],
+    "react": [
+      {
+        "judul": "CORE",
+        "butir": [
+          {
+            "id": "rx-jsx",
+            "judul": "JSX & Rendering",
+            "jumlahEntri": 15
+          },
+          {
+            "id": "rx-comp",
+            "judul": "Component & Props",
+            "jumlahEntri": 20
+          },
+          {
+            "id": "rx-hooks",
+            "judul": "Hooks Lengkap",
+            "jumlahEntri": 30
+          },
+          {
+            "id": "rx-ev",
+            "judul": "Event Handling",
+            "jumlahEntri": 18
+          },
+          {
+            "id": "rx-form",
+            "judul": "Form & Controlled Input",
+            "jumlahEntri": 14
+          }
+        ]
+      },
+      {
+        "judul": "LANJUTAN",
+        "butir": [
+          {
+            "id": "rx-ctx",
+            "judul": "Context API",
+            "jumlahEntri": 12
+          },
+          {
+            "id": "rx-perf",
+            "judul": "Performance & Memo",
+            "jumlahEntri": 14
+          }
+        ]
+      }
+    ],
+    "anim": [
+      {
+        "judul": "CSS TRANSITION",
+        "butir": [
+          {
+            "id": "an-trans",
+            "judul": "Transition Dasar",
+            "jumlahEntri": 12
+          },
+          {
+            "id": "an-timing",
+            "judul": "Timing Function & Easing",
+            "jumlahEntri": 10
+          }
+        ]
+      },
+      {
+        "judul": "CSS ANIMATION",
+        "butir": [
+          {
+            "id": "an-kf",
+            "judul": "@keyframes Lengkap",
+            "jumlahEntri": 20
+          },
+          {
+            "id": "an-prop",
+            "judul": "Animation Properties",
+            "jumlahEntri": 15
+          },
+          {
+            "id": "an-adv",
+            "judul": "Chaining & Stagger",
+            "jumlahEntri": 18
+          }
+        ]
+      },
+      {
+        "judul": "TRANSFORM",
+        "butir": [
+          {
+            "id": "an-2d",
+            "judul": "Transform 2D",
+            "jumlahEntri": 14
+          },
+          {
+            "id": "an-3d",
+            "judul": "Transform 3D & Perspective",
+            "jumlahEntri": 16
+          }
+        ]
+      },
+      {
+        "judul": "TEKNIK",
+        "butir": [
+          {
+            "id": "an-scroll",
+            "judul": "Scroll Animation",
+            "jumlahEntri": 12
+          },
+          {
+            "id": "an-var",
+            "judul": "Animasi CSS Variable",
+            "jumlahEntri": 10
+          },
+          {
+            "id": "an-js",
+            "judul": "Animasi dengan JavaScript",
+            "jumlahEntri": 15
+          }
+        ]
+      }
+    ],
+    "svg": [
+      {
+        "judul": "DASAR",
+        "butir": [
+          {
+            "id": "sv-basic",
+            "judul": "SVG Dasar & Viewport",
+            "jumlahEntri": 15
+          },
+          {
+            "id": "sv-shape",
+            "judul": "Shape & Path Commands",
+            "jumlahEntri": 20
+          },
+          {
+            "id": "sv-txt",
+            "judul": "Text & tspan",
+            "jumlahEntri": 12
+          }
+        ]
+      },
+      {
+        "judul": "EFEK & ANIMASI",
+        "butir": [
+          {
+            "id": "sv-grad",
+            "judul": "Gradient & Pattern",
+            "jumlahEntri": 14
+          },
+          {
+            "id": "sv-filt",
+            "judul": "Filter (blur, shadow...)",
+            "jumlahEntri": 12
+          },
+          {
+            "id": "sv-anim",
+            "judul": "SVG Animation (SMIL & CSS)",
+            "jumlahEntri": 18
+          }
+        ]
+      },
+      {
+        "judul": "INTERAKTIF",
+        "butir": [
+          {
+            "id": "sv-js",
+            "judul": "SVG + JavaScript",
+            "jumlahEntri": 16
+          },
+          {
+            "id": "sv-icon",
+            "judul": "Icon System & Sprite",
+            "jumlahEntri": 10
+          }
+        ]
+      }
+    ],
+    "three": [
+      {
+        "judul": "DASAR",
+        "butir": [
+          {
+            "id": "th-setup",
+            "judul": "Setup & Scene Dasar",
+            "jumlahEntri": 12
+          },
+          {
+            "id": "th-geom",
+            "judul": "Geometry & Material",
+            "jumlahEntri": 18
+          },
+          {
+            "id": "th-light",
+            "judul": "Lighting",
+            "jumlahEntri": 14
+          },
+          {
+            "id": "th-cam",
+            "judul": "Camera & Controls",
+            "jumlahEntri": 12
+          }
+        ]
+      },
+      {
+        "judul": "LANJUTAN",
+        "butir": [
+          {
+            "id": "th-anim",
+            "judul": "Animasi & Loop",
+            "jumlahEntri": 15
+          },
+          {
+            "id": "th-part",
+            "judul": "Particle System",
+            "jumlahEntri": 14
+          }
+        ]
+      }
+    ],
+    "sql": [
+      {
+        "judul": "QUERY",
+        "butir": [
+          {
+            "id": "sq-sel",
+            "judul": "SELECT & WHERE Filter",
+            "jumlahEntri": 25
+          },
+          {
+            "id": "sq-join",
+            "judul": "JOIN (INNER, LEFT, RIGHT...)",
+            "jumlahEntri": 18
+          },
+          {
+            "id": "sq-agg",
+            "judul": "Aggregate & GROUP BY",
+            "jumlahEntri": 15
+          },
+          {
+            "id": "sq-sub",
+            "judul": "Subquery & CTE",
+            "jumlahEntri": 12
+          }
+        ]
+      },
+      {
+        "judul": "DDL & DML",
+        "butir": [
+          {
+            "id": "sq-ddl",
+            "judul": "CREATE, ALTER, DROP TABLE",
+            "jumlahEntri": 18
+          },
+          {
+            "id": "sq-dml",
+            "judul": "INSERT, UPDATE, DELETE",
+            "jumlahEntri": 14
+          },
+          {
+            "id": "sq-idx",
+            "judul": "Index & Optimisasi",
+            "jumlahEntri": 12
+          }
+        ]
+      }
+    ]
+  }
+}
